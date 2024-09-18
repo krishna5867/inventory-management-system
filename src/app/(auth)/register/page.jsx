@@ -10,7 +10,7 @@ export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("accountant"); // default role
+  const [role, setRole] = useState("accountant"); 
   const router = useRouter();
 
 
