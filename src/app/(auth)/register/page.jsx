@@ -2,14 +2,17 @@
 
 import Link from "next/link";
 import { useState } from "react";
-// import { useRouter } from "next/router";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from "next/navigation";
 
 export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("accountant"); // default role
-  // const router = useRouter();
+  const router = useRouter();
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,10 +24,16 @@ export default function Register() {
     });
 
     if (res.ok) {
-      console.log("User registered successfully");
-      // router.push("/auth/signin"); // Redirect to sign in after registration
+      const resData = await res.json();
+      toast.success(resData.message);
+      setName('')
+      setEmail('')
+      setPassword('')
+      setRole('accountant');
+      // router.push("/signin");
     } else {
-      alert("Failed to register");
+      const errorData = await res.json();
+      toast.error(errorData.message);
     }
   };
 
@@ -73,6 +82,7 @@ export default function Register() {
           </div>
         </form>
       </div>
+      <ToastContainer />
     </div>
 
   );
