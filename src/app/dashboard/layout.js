@@ -4,12 +4,12 @@ import { redirect } from "next/navigation";
 import LayoutClient from "./LayoutClient";
 
 export default async function ProtectedLayout({ children }) {
-  const session = await getServerSession();
+  // const session = await getServerSession();
 
   // if (!session) {
   //   redirect('/signin');
   //   return null; 
   // }
 
-  return <LayoutClient session={session}>{children}</LayoutClient>;
+  return <LayoutClient >{children}</LayoutClient>;  // session={session}
 }
