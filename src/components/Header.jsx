@@ -15,28 +15,26 @@ const Header = () => {
   }
 
   return (
-      <div className='w-full bg-black'>
-        <div className='flex items-center justify-between px-4 py-2'>
+      <div className='w-full bg-gray-800 text-black h-20'>
+        <div className='flex items-center justify-between px-4 py-4'>
           <div>
-            <Link href="/">
-              <h2 className='text-white font-semibold'>Accounting App</h2>
-            </Link>
+              <h2 className='text-white font-semibold hidden lg:block'>Accounting App</h2>
           </div>
           <div className='text-white'>
           </div>
           <div className='flex gap-x-4'>
             {session ?
-              <button className="bg-black text-white px-4 py-1.5 rounded-full border"
+              <button className="bg-blue-500 text-white px-2 py-1 sm:px-4 sm:py-2 rounded-md"
                 onClick={() => signOut()}>
                 Sign Out
               </button>
               : (
                 <>
                   <Link href="/signin">
-                    <button className='bg-black text-white px-4 py-1.5 rounded-full border'>Login</button>
+                    <button className="bg-blue-500 text-white px-2 py-1 sm:px-4 sm:py-2 rounded-md">Login</button>
                   </Link>
                   <Link href="/register">
-                    <button className='bg-black text-white px-4 py-1.5 rounded-full border'>SignUp</button>
+                    <button className="bg-blue-500 text-white px-2 py-1 sm:px-4 sm:py-2 rounded-md">SignUp</button>
                   </Link>
                 </>
               )}

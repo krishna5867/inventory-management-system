@@ -8,7 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function SignIn() {
-  const [email, setEmail] = useState("kk@kk.com");
+  const [email, setEmail] = useState("ak@ak.com");
   const [password, setPassword] = useState("password");
   const router = useRouter();
 
@@ -30,7 +30,7 @@ export default function SignIn() {
   };
 
   return (
-    <div className="flex justify-center items-center mt-32">
+    <div className="flex justify-center items-center mt-20">
       <div className="border max-w-md w-full py-20 px-10 rounded-xl shadow-md bg-white">
         <form onSubmit={handleSubmit}>
           <h1 className="text-center mb-10 text-xl font-bold">Sign In</h1>
@@ -52,7 +52,7 @@ export default function SignIn() {
               className="border border-black p-2 w-full rounded-sm"
               required
             />
-            <button type="submit" className="w-full mt-2 bg-black text-white p-2 rounded-md hover:bg-black/90">Sign In</button>
+            <button type="submit" className="w-full mt-2 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600">Sign In</button>
             <p>Don't have account <Link href="/register" className="font-bold">Signup</Link></p>
 
           </div>

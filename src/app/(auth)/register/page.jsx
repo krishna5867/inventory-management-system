@@ -10,7 +10,7 @@ export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("accountant"); 
+  const [role, setRole] = useState("accountant"); // default role
   const router = useRouter();
 
 
@@ -38,7 +38,8 @@ export default function Register() {
   };
 
   return (
-    <div className="flex justify-center items-center mt-20">
+
+    <div className="flex justify-center items-center mt-10">
       <div className="border max-w-md w-full py-20 px-10 rounded-xl shadow-md bg-white">
 
         <form onSubmit={handleSubmit}>
@@ -77,7 +78,7 @@ export default function Register() {
               <option value="admin">Admin</option>
               <option value="accountant">Accountant</option>
             </select>
-            <button type="submit" className="w-full mt-2 bg-black text-white p-2 rounded-md hover:bg-black/90" >Sign Up</button>
+            <button type="submit" className="w-full mt-2 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600" >Sign Up</button>
             <p>Already have an account <Link href="/signin" className="font-bold">Login</Link></p>
           </div>
         </form>
