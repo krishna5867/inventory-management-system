@@ -17,45 +17,45 @@ model User {
   id        Int      @id @default(autoincrement())
   name      String
   email     String   @unique
-  password  String   // For credential-based login
-  role      String   // (admin, accountant, etc.)
+  password  String // For credential-based login
+  role      String // (admin, accountant, etc.)
   createdAt DateTime @default(now())
 
   // Relations to handle OAuth logins and session management via NextAuth.js
-  accounts  Account[]
-  sessions  Session[]
+  accounts Account[]
+  sessions Session[]
 }
 
 model Account {
-  id                 Int       @id @default(autoincrement())
-  userId             Int
-  type               String    // OAuth, credentials, etc.
-  provider           String    // e.g., "google", "github"
-  providerAccountId  String    // The unique ID from the provider (e.g., Google user ID)
-  refresh_token      String?   
-  access_token       String?   
-  expires_at         Int?      
-  token_type         String?   
-  scope              String?   
-  id_token           String?   
-  session_state      String?   
+  id                Int     @id @default(autoincrement())
+  userId            Int
+  type              String // OAuth, credentials, etc.
+  provider          String // e.g., "google", "github"
+  providerAccountId String // The unique ID from the provider (e.g., Google user ID)
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
 
-  user               User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([provider, providerAccountId]) // Ensures a user can only have one account per provider
+  @@unique([provider, providerAccountId])
 }
 
 model Session {
-  id           Int       @id @default(autoincrement())
-  sessionToken String    @unique
+  id           Int      @id @default(autoincrement())
+  sessionToken String   @unique
   userId       Int
   expires      DateTime
-  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {
   identifier String
-  token      String    @unique
+  token      String   @unique
   expires    DateTime
 
   @@unique([identifier, token])
@@ -70,4 +70,41 @@ model Sales {
   date          DateTime
   paymentStatus String   @default("pending")
   createdAt     DateTime @default(now())
+}
+
+model BankDetails {
+  id            Int      @id @default(autoincrement())
+  bankName      String
+  accountNumber String   @unique
+  description   String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Purchase {
+  id                 Int           @id @default(autoincrement())
+  vendorName         String
+  tds                String        @default("no") 
+  rem                String        @default("no") 
+  paidDate           DateTime
+  amountPaid         Float        
+  warehouseLocation  String?
+  asset              String?
+  assetName          String?
+  assetValue         Float?
+  assetDescription   String?
+  purchaseDescription String?
+  purchaseBill       String?       
+  bankAccounts       BankAccount[] 
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt     
+}
+
+model BankAccount {
+  id         Int       @id @default(autoincrement())
+  bankName   String
+  purchase   Purchase  @relation(fields: [purchaseId], references: [id])
+  purchaseId Int
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 }
