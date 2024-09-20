@@ -15,10 +15,10 @@ const Header = () => {
   }
 
   return (
-      <div className='w-full bg-gray-800 text-black h-20'>
+      <div className='w-full bg-gray-800 text-black h-[70px]'>
         <div className='flex items-center justify-between px-4 py-4'>
           <div>
-              <h2 className='text-white font-semibold hidden lg:block'>Accounting App</h2>
+              <h2 className='text-white font-semibold hidden lg:block hover:text-blue-500 cursor-pointer underline decoration-1 decoration-dotted decoration-gray-500 underline-offset-8'>Accounting App</h2>
           </div>
           <div className='text-white'>
           </div>
@@ -31,10 +31,10 @@ const Header = () => {
               : (
                 <>
                   <Link href="/signin">
-                    <button className="bg-blue-500 text-white px-2 py-1 sm:px-4 sm:py-2 rounded-md">Login</button>
+                    <button className="bg-blue-500 hover:bg-blue-600 focus:ring-1 focus:ring-blue-300 text-white px-2 py-1 sm:px-4 sm:py-2 rounded-md">Login</button>
                   </Link>
                   <Link href="/register">
-                    <button className="bg-blue-500 text-white px-2 py-1 sm:px-4 sm:py-2 rounded-md">SignUp</button>
+                    <button className="bg-blue-500 hover:bg-blue-600 focus:ring-1 focus:ring-blue-300 text-white px-2 py-1 sm:px-4 sm:py-2 rounded-md">SignUp</button>
                   </Link>
                 </>
               )}

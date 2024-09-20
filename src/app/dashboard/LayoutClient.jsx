@@ -28,39 +28,39 @@ export default function LayoutClient({ children }) {
 
       {/* NavBar */}
       <div
-        className={`shadow-lg absolute top-0 left-0  lg:static w-1/3 sm:w-1/4 lg:w-1/6 pb-10 lg:pb-0 lg:h-screen bg-gray-800 text-white px-2 py-2 z-10 transform transition-transform duration-300 ease-in-out ${
+        className={`shadow-lg absolute top-0 left-0  lg:static w-1/3 sm:w-1/4 lg:w-1/6 pb-10 lg:pb-0 h-screen lg:h-[625px] bg-gray-800 text-white px-2 py-2 z-10 transform transition-transform duration-300 ease-in-out ${
           isVisible ? "translate-x-0" : "-translate-x-full"
         } lg:translate-x-0 lg:block`}
       >
         <div>
           <ul className="flex flex-col justify-center items-start gap-5" onClick={handleClick}>
             <Link href="/dashboard">
-              <li className="p-2 cursor-pointer uppercase hover:text-gray-400">
+              <li className="p-2 cursor-pointer uppercase hover:text-blue-500">
                 Dashboard
               </li>
             </Link>
             <Link href="/dashboard/sales">
-              <li className="p-2 hover:text-gray-400 cursor-pointer uppercase">
+              <li className="p-2 hover:text-blue-500 cursor-pointer uppercase">
                 Sales
               </li>
             </Link>
             <Link href="/dashboard/purchases">
-              <li className="p-2 hover:text-gray-400 cursor-pointer uppercase">
+              <li className="p-2 hover:text-blue-500 cursor-pointer uppercase">
                 Purchases
               </li>
             </Link>
-            <Link href="/dashboard/assets">
-              <li className="p-2 hover:text-gray-400 cursor-pointer uppercase">
+            {/* <Link href="/dashboard/assets">
+              <li className="p-2 hover:text-blue-500 cursor-pointer uppercase">
                 Assets
               </li>
-            </Link>
+            </Link> */}
             <Link href="/dashboard/stock">
-              <li className="p-2 hover:text-gray-400 cursor-pointer uppercase">
+              <li className="p-2 hover:text-blue-500 cursor-pointer uppercase">
                 Stock
               </li>
             </Link>
             <Link href="/dashboard/reports">
-              <li className="p-2 hover:text-gray-400 cursor-pointer uppercase">
+              <li className="p-2 hover:text-blue-500 cursor-pointer uppercase">
                 Reports
               </li>
             </Link>

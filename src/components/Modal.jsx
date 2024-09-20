@@ -4,7 +4,7 @@ const Modal = ({ isOpen, onClose, onSubmit }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 backdrop-blur-sm flex justify-center items-center">
+    <div className="fixed inset-5 flex justify-center items-center">
       <div className="bg-white p-4 rounded-lg shadow-lg max-w-sm w-full">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold">Add New SKU</h2>

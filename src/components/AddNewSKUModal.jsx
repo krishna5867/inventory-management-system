@@ -5,7 +5,7 @@ const AddNewSKUModal = ({ isOpen, onClose, onSubmit }) => {
   
     const handleSubmit = () => {
       onSubmit({ sku, productName, description });
-      onClose();  // close modal after submitting
+      onClose();  
     };
   
     return (
