@@ -38,6 +38,7 @@ export default function Register() {
   };
 
   return (
+
     <div className="flex justify-center items-center mt-10">
       <div className="border max-w-md w-full py-20 px-10 rounded-xl shadow-md bg-white">
 
