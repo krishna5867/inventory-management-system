@@ -114,7 +114,7 @@ export default function ShowSalesData() {
           </button>
         </div>
       )}
-
+      <div className="max-h-screen overflow-y-auto lg:max-h-full lg:overflow-visible rounded">
       <table className="min-w-full bg-white">
         <thead>
           <tr>
@@ -162,6 +162,7 @@ export default function ShowSalesData() {
           )}
         </tbody>
       </table>
+      </div>
     </div>
   );
 }

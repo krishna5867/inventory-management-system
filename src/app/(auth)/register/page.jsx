@@ -78,7 +78,7 @@ export default function Register() {
               <option value="admin">Admin</option>
               <option value="accountant">Accountant</option>
             </select>
-            <button type="submit" className="w-full mt-2 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600" >Sign Up</button>
+            <button type="submit" className="w-full mt-2  text-white p-2 rounded-md bg-blue-500 hover:bg-blue-600 focus:ring-1 focus:ring-blue-300" >Sign Up</button>
             <p>Already have an account <Link href="/signin" className="font-bold">Login</Link></p>
           </div>
         </form>

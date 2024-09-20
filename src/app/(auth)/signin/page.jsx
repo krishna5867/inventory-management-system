@@ -52,7 +52,7 @@ export default function SignIn() {
               className="border border-black p-2 w-full rounded-sm"
               required
             />
-            <button type="submit" className="w-full mt-2 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600">Sign In</button>
+            <button type="submit" className="w-full mt-2 text-white p-2 rounded-md bg-blue-500 hover:bg-blue-600 focus:ring-1 focus:ring-blue-300">Sign In</button>
             <p>Don't have account <Link href="/register" className="font-bold">Signup</Link></p>
 
           </div>

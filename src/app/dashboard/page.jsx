@@ -68,7 +68,7 @@ export default function Dashboard() {
   };
 
 return (
-  <div className="w-full ml-10 sm:ml-24 lg:ml-12 xl:ml-0 h-screen overflow-hidden overflow-y-scroll scrollbar-hide">
+  <div className="w-full ml-10 sm:ml-24 lg:ml-12 xl:ml-0 h-[610px] overflow-hidden overflow-y-scroll scrollbar-hide">
     <div className="max-w-5xl mx-auto text-black mt-5 h-full ">
     
       {notifications.length > 0 && (
@@ -88,11 +88,11 @@ return (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="bg-white shadow-md p-4 rounded-md">
             <h2 className="text-xl font-semibold">Total Sales</h2>
-            <p className="text-4xl font-bold mt-2">$12,345</p>
+            <p className="text-4xl font-bold mt-2">₹12,345</p>
           </div>
           <div className="bg-white shadow-md p-4 rounded-md">
             <h2 className="text-xl font-semibold">Total Purchases</h2>
-            <p className="text-4xl font-bold mt-2">$8,765</p>
+            <p className="text-4xl font-bold mt-2">₹8,765</p>
           </div>
           <div className="bg-white shadow-md p-4 rounded-md">
             <h2 className="text-xl font-semibold">Available Stocks</h2>
@@ -104,7 +104,7 @@ return (
           </div>
           <div className="bg-white shadow-md p-4 rounded-md">
             <h2 className="text-xl font-semibold">Account Balance</h2>
-            <p className="text-4xl font-bold mt-2">$50,000</p>
+            <p className="text-4xl font-bold mt-2">₹50,000</p>
           </div>
         </div>
       </div>

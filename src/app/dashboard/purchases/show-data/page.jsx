@@ -89,7 +89,7 @@ export default function ShowPurchaseData() {
       <div className="mb-4">
         <button
           onClick={handleFilter}
-          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+          className=" text-white px-4 py-2 rounded-md bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:ring-blue-300"
         >
           Filter
         </button>
@@ -143,7 +143,7 @@ export default function ShowPurchaseData() {
                     </button>
                     <button
                       onClick={() => generateInvoice(purchase)}  
-                      className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
+                      className="text-white px-2 py-1 rounded bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:ring-blue-300"
                     >
                       Generate Invoice
                     </button>
