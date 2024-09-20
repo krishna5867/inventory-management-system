@@ -1,24 +1,33 @@
 "use client";
-import { useState } from 'react';
-import InputField from '@/components/InputField'; 
-import AddBankModel from '@/components/AddBankModel'; 
+import { useState } from "react";
+import InputField from "@/components/InputField";
+import AddBankModel from "@/components/AddBankModel";
 import { CiBank } from "react-icons/ci";
 
-const YourComponent = () => {
+const Purchase = () => {
   const [formData, setFormData] = useState({
-    supplier: '',
-    date: '',
-    amountPaid: '',
-    purchaseDescription: '',
-    asset: '', 
-    assetName: '',
-    assetValue: '',
-    assetDescription: '',
+    vendorName: "",
+    date: "",
+    amountPaid: "",
+    purchaseDescription: "",
+    asset: "NO",
+    assetName: "",
+    assetValue: "",
+    assetDescription: "",
+    TDSApplicable: "NO",
+    RCMApplicable: "NO",
+    paymentFromBankAccount: "Bank 1",
+    warehouse: "Jaipur",
+    paymentMethod: "cash",
+    purchaseBill: "",
   });
 
   const [showAssetFields, setShowAssetFields] = useState(false);
   const [showBankModal, setShowBankModal] = useState(false);
-  const [bankAccounts, setBankAccounts] = useState([{ bankName: 'Bank 1' }, { bankName: 'Bank 2' }]); 
+  const [bankAccounts, setBankAccounts] = useState([
+    { bankName: "Bank 1" },
+    { bankName: "Bank 2" },
+  ]);
 
   const handleInputChange = (e) => {
     setFormData({
@@ -26,23 +35,25 @@ const YourComponent = () => {
       [e.target.id]: e.target.value,
     });
 
-    if (e.target.id === 'asset') {
-      setShowAssetFields(e.target.value === 'Yes');
+    if (e.target.id === "asset") {
+      setShowAssetFields(e.target.value === "Yes");
     }
   };
 
   const handleBankSubmit = (newBank) => {
-    setBankAccounts([...bankAccounts, { bankName: newBank }]);
+    setBankAccounts((prev) => [...prev, newBank]);
+    setFormData((prev) => ({ ...prev, paymentFromBankAccount: newBank.bankName }));
     setShowBankModal(false);
   };
-
+  
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Form Submitted:", formData);
   };
 
   return (
-    <div className="bg-white mt-4 ml-10 -mr-16 md:ml-40 sm:-mr-28 lg:-mr-0 lg:ml-32 rounded-lg max-w-4xl mx-auto p-5 h-[600px] overflow-hidden overflow-y-scroll scrollbar-hide">
+    <div className="bg-white w-auto ml-20 -mr-12 sm:ml-32 sm:-mr-16 md:-mr-24 lg:-mr-0 lg:ml-24 xl:ml-28 rounded-lg p-5 my-3 h-[600px] overflow-hidden overflow-y-scroll scrollbar-hide">
       <form onSubmit={handleSubmit}>
         <InputField
           label="Vendor Name"
@@ -57,15 +68,19 @@ const YourComponent = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-6">
           <InputField
             label="TDS Applicable?"
-            id="tds"
+            id="TDSApplicable"
             isSelect={true}
             options={["No", "Yes"]}
+            value={formData.TDSApplicable}
+            onChange={handleInputChange}
           />
           <InputField
             label="RCM Applicable?"
-            id="rcm"
+            id="RCMApplicable"
             isSelect={true}
             options={["No", "Yes"]}
+            value={formData.RCMApplicable}
+            onChange={handleInputChange}
           />
         </div>
 
@@ -73,7 +88,7 @@ const YourComponent = () => {
           <InputField
             label="Date Paid"
             type="date"
-            id="datePaid"
+            id="date"
             value={formData.date}
             onChange={handleInputChange}
             required={true}
@@ -82,7 +97,7 @@ const YourComponent = () => {
           <div>
             <label
               htmlFor="paymentFrom"
-              className="block mb-2 text-sm font-medium text-gray-900"
+              className="block mb-2 text-sm font-medium text-gray-900 -mt-3"
             >
               Payment From Bank Account
               <button
@@ -90,15 +105,19 @@ const YourComponent = () => {
                   e.preventDefault();
                   setShowBankModal(true);
                 }}
-              className="ml-2 py-1 px-1 xl:ml-4 xl:py-2 xl:px-2 text-xs rounded bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:ring-blue-300 text-white"
+                className="ml-2 py-1 px-1 xl:ml-4 xl:py-2 xl:px-2 text-xs rounded bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:ring-blue-300 text-white"
               >
-                <span className="hidden lg:block">Add Bank Account</span> 
-                <span className="block lg:hidden"><CiBank size={20} /></span>
+                <span className="hidden lg:block">Add Bank Account</span>
+                <span className="block lg:hidden">
+                  <CiBank size={20} />
+                </span>
               </button>
             </label>
             <select
-              id="paymentFrom"
+              id="paymentFromBankAccount"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              value={formData.paymentFromBankAccount}
+              onChange={handleInputChange}
               required
             >
               {bankAccounts.map((account, index) => (
@@ -130,6 +149,8 @@ const YourComponent = () => {
             id="warehouse"
             isSelect={true}
             options={["Jaipur", "Banglore"]}
+            value={formData.warehouse}
+            onChange={handleInputChange}
           />
         </div>
 
@@ -169,6 +190,7 @@ const YourComponent = () => {
               placeholder="Enter Asset Description"
               value={formData.assetDescription}
               onChange={handleInputChange}
+              isTextArea={true}
             />
           </div>
         )}
@@ -177,7 +199,14 @@ const YourComponent = () => {
           label="Payment Method"
           id="paymentMethod"
           isSelect={true}
-          options={["Select Payment Method", "Cash", "Cheque", "Online Transfer"]}
+          options={[
+            "Select Payment Method",
+            "Cash",
+            "Cheque",
+            "Online Transfer",
+          ]}
+          value={formData.paymentMethod}
+          onChange={handleInputChange}
         />
 
         <InputField
@@ -187,9 +216,14 @@ const YourComponent = () => {
           placeholder="Add order notes, if any"
           value={formData.purchaseDescription}
           onChange={handleInputChange}
+          isTextArea={true}
         />
 
-        <InputField label="Upload Purchase Bill" type="file" id="purchaseBill" />
+        <InputField
+          label="Upload Purchase Bill"
+          type="file"
+          id="purchaseBill"
+        />
 
         <button
           type="submit"
@@ -211,5 +245,4 @@ const YourComponent = () => {
   );
 };
 
-export default YourComponent;
-
+export default Purchase;
