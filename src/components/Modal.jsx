@@ -17,7 +17,7 @@ const ReusableModal = ({ isOpen, onClose, onSubmit, title, fields = [] }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(formData);
+    onSubmit(formData); 
     onClose();
     setFormData(initialFormData); 
   };
@@ -54,6 +54,9 @@ const ReusableModal = ({ isOpen, onClose, onSubmit, title, fields = [] }) => {
             <button
               type="submit"
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              value={formData.bankName}
+              onChange={(e) => setFormData({ ...formData, bankName: e.target.value})}
+              onClick={handleSubmit}
             >
               Submit
             </button>

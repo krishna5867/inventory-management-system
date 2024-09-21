@@ -265,7 +265,6 @@
 //           </button>
 //         </form>
 
-
 //         <div className="flex justify-end mb-4">
 //           <button
 //             onClick={() => router.push("/dashboard/purchases/show-data")}
@@ -283,35 +282,37 @@
 
 // export default Purchase;
 
-
 "use client";
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import InputField from '@/components/InputField';
-import Modal from '@/components/Modal';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import InputField from "@/components/InputField";
+import Modal from "@/components/Modal";
 import { CiBank } from "react-icons/ci";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Purchase = () => {
   const [formData, setFormData] = useState({
-    vendorName: '',
-    tds: 'no',
-    rem: 'no',
-    paidDate: '',
-    amountPaid: '',
-    warehouseLocation: 'Jaipur',
-    asset: '',
-    assetName: '',
-    assetValue: '',
-    assetDescription: '',
-    purchaseDescription: '',
-    purchaseBill: '',
+    vendorName: "",
+    tds: "no",
+    rem: "no",
+    paidDate: "",
+    amountPaid: "",
+    warehouseLocation: "Jaipur",
+    asset: "",
+    assetName: "",
+    assetValue: "",
+    assetDescription: "",
+    purchaseDescription: "",
+    purchaseBill: "",
   });
 
   const [showAssetFields, setShowAssetFields] = useState(false);
   const [showBankModal, setShowBankModal] = useState(false);
-  const [bankAccounts, setBankAccounts] = useState([{ bankName: 'Bank 1' }, { bankName: 'Bank 2' }])
+  const [bankAccounts, setBankAccounts] = useState([
+    { bankName: "Bank 1" },
+    { bankName: "Bank 2" },
+  ]);
   const router = useRouter();
 
   const handleInputChange = (e) => {
@@ -321,32 +322,32 @@ const Purchase = () => {
       [id]: value,
     }));
 
-    if (id === 'asset') {
-      setShowAssetFields(value === 'Yes');
+    if (id === "asset") {
+      setShowAssetFields(value === "Yes");
     }
   };
 
   const handleAddBankAccount = async (formData) => {
     try {
-      const response = await fetch('/api/purchases/addbank', {
-        method: 'POST',
+      const response = await fetch("/api/purchases/addbank", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
 
       const result = await response.json();
       if (response.ok) {
-        toast.success('Bank Details added successfully!');
+        toast.success("Bank Details added successfully!");
         setBankAccounts((prevAccounts) => [...prevAccounts, formData]);
         setShowBankModal(false);
       } else {
         toast.error(`Failed to add bank details: ${result.message}`);
       }
     } catch (error) {
-      console.error('Error adding bank details:', error);
-      toast.error('Failed to add bank details');
+      console.error("Error adding bank details:", error);
+      toast.error("Failed to add bank details");
     }
   };
 
@@ -354,37 +355,63 @@ const Purchase = () => {
     e.preventDefault();
     console.log(formData);
     try {
-      const response = await fetch('/api/purchase', {
-        method: 'POST',
+      const response = await fetch("/api/purchase", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
 
       const result = await response.json();
       if (response.ok) {
-        toast.success('Purchase added successfully!');
+        toast.success("Purchase added successfully!");
       } else {
         toast.error(`Failed to add purchase: ${result.message}`);
       }
     } catch (error) {
-      console.error('Error adding purchase:', error);
-      toast.error('Failed to add purchase');
+      console.error("Error adding purchase:", error);
+      toast.error("Failed to add purchase");
     }
   };
 
   const bankFields = [
-    { label: 'Bank Name', name: 'bankName', type: 'text', placeholder: 'Enter Bank Name', required: true },
-    { label: 'Account Number', name: 'accountNumber', type: 'text', placeholder: 'Enter Account Number', required: true },
-    { label: 'Description', name: 'description', type: 'text', placeholder: 'Enter Description', isTextArea: true },
+    {
+      label: "Name",
+      name: "bankName",
+      type: "text",
+      placeholder: "Enter Bank Name",
+      required: true,
+      value: formData.bankName,
+      onChange: (e) => setFormData({ ...formData, bankName: e.target.value })
+    },
+    {
+      label: "Account Number",
+      name: "accountNumber",
+      type: "text",
+      placeholder: "Enter Account Number",
+      required: true,
+      value: formData.accountNumber,
+      onChange: (e) => setFormData({ ...formData, accountNumber: e.target.value})
+    },
+    {
+      label: "Description",
+      name: "description",
+      type: "text",
+      placeholder: "Enter Description",
+      isTextArea: true,
+      value: formData.description,
+      onChange: (e) => setFormData({ ...formData, description: e.target.value})
+    },
   ];
 
   return (
     <>
-       <h1 className="text-2xl font-bold my-6 ml-20 sm:ml-32 lg:ml-28">Purchase Management</h1>
+      <h1 className="text-2xl font-bold my-6 ml-20 sm:ml-32 lg:ml-28">
+        Purchase Management
+      </h1>
       <div className="bg-white w-auto ml-20 -mr-12 sm:ml-32 sm:-mr-16 md:-mr-24 lg:-mr-0 lg:ml-24 xl:ml-28 rounded-lg p-5 py-8 my-3 h-[533px] overflow-hidden overflow-y-scroll scrollbar-hide">
-      <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <InputField
             label="Vendor Name"
             type="text"
@@ -438,7 +465,9 @@ const Purchase = () => {
                   className="ml-2 py-1 px-1 xl:ml-4 xl:py-2 xl:px-2 text-xs rounded bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:ring-blue-300 text-white"
                 >
                   <span className="hidden lg:block">Add Bank Account</span>
-                  <span className="block lg:hidden"><CiBank size={20} /></span>
+                  <span className="block lg:hidden">
+                    <CiBank size={20} />
+                  </span>
                 </button>
               </label>
               <select
@@ -531,7 +560,12 @@ const Purchase = () => {
             label="Payment Method"
             id="paymentMethod"
             isSelect={true}
-            options={["Select Payment Method", "Cash", "Cheque", "Online Transfer"]}
+            options={[
+              "Select Payment Method",
+              "Cash",
+              "Cheque",
+              "Online Transfer",
+            ]}
             value={formData.paymentMethod}
             onChange={handleInputChange}
           />
@@ -549,7 +583,9 @@ const Purchase = () => {
             label="Upload Purchase Bill"
             type="file"
             id="purchaseBill"
-            onChange={(e) => setFormData({ ...formData, purchaseBill: e.target.files[0] })}
+            onChange={(e) =>
+              setFormData({ ...formData, purchaseBill: e.target.files[0] })
+            }
           />
 
           <button
@@ -559,7 +595,6 @@ const Purchase = () => {
             Add New Purchase
           </button>
         </form>
-
 
         <div className="flex justify-end mb-4">
           <button
@@ -572,7 +607,6 @@ const Purchase = () => {
       </div>
       <ToastContainer />
     </>
-
   );
 };
 
