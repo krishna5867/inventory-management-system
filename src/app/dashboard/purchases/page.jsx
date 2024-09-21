@@ -1,18 +1,21 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import InputField from '@/components/InputField';
 import AddBankModel from '@/components/AddBankModel';
 import { CiBank } from "react-icons/ci";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import useBankDetails from '@/hooks/useBankDetails';
 
 const Purchase = () => {
+  const { bankDetails, status, error, } = useBankDetails();
   const [formData, setFormData] = useState({
     vendorName: '',
     tds: 'no',
     rem: 'no',
     paidDate: '',
+    paymentFrom: '',
     amountPaid: '',
     warehouseLocation: 'Jaipur',
     asset: '',
@@ -25,7 +28,6 @@ const Purchase = () => {
 
   const [showAssetFields, setShowAssetFields] = useState(false);
   const [showBankModal, setShowBankModal] = useState(false);
-  const [bankAccounts, setBankAccounts] = useState([{ bankName: 'Bank 1' }, { bankName: 'Bank 2' }])
   const router = useRouter();
 
   const handleInputChange = (e) => {
@@ -68,7 +70,7 @@ const Purchase = () => {
     e.preventDefault();
     console.log(formData);
     try {
-      const response = await fetch('/api/purchase', {
+      const response = await fetch('/api/purchases', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -156,9 +158,9 @@ const Purchase = () => {
                 onChange={handleInputChange}
                 required
               >
-                {bankAccounts?.map((account, index) => (
-                  <option key={index} value={account.bankName}>
-                    {account.bankName}
+                {bankDetails.data?.map((account, index) => (
+                  <option key={index} value={account.accountNumber}>
+                    {account.bankName}-{account.accountNumber}
                   </option>
                 ))}
               </select>

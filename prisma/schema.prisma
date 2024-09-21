@@ -82,29 +82,30 @@ model BankDetails {
 }
 
 model Purchase {
-  id                 Int           @id @default(autoincrement())
+  id                 Int      @id @default(autoincrement())
   vendorName         String
-  tds                String        @default("no") 
-  rem                String        @default("no") 
+  tds                String?
+  rem                String?  
   paidDate           DateTime
-  amountPaid         Float        
+  paymentFrom        String
+  amountPaid         Float
   warehouseLocation  String?
   asset              String?
   assetName          String?
-  assetValue         Float?
+  assetValue         Float?   
   assetDescription   String?
   purchaseDescription String?
-  purchaseBill       String?       
-  bankAccounts       BankAccount[] 
-  createdAt          DateTime      @default(now())
-  updatedAt          DateTime      @updatedAt     
+  purchaseBill       String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 }
 
-model BankAccount {
-  id         Int       @id @default(autoincrement())
-  bankName   String
-  purchase   Purchase  @relation(fields: [purchaseId], references: [id])
-  purchaseId Int
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-}
+
+// model BankAccount {
+//   id         Int       @id @default(autoincrement())
+//   bankName   String
+//   purchase   Purchase  @relation(fields: [purchaseId], references: [id])
+//   purchaseId Int
+//   createdAt  DateTime  @default(now())
+//   updatedAt  DateTime  @updatedAt
+// }

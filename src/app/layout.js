@@ -4,6 +4,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/Header";
 import { SessionProvider } from "next-auth/react";
+import { Provider } from 'react-redux';
+import store from '@/redux/store';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,10 +30,12 @@ export default function RootLayout({ children }) {
       <body
         className={`bg-gray-100 ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <SessionProvider>
-          <Header />
-          {children}
-        </SessionProvider>
+        <Provider store={store}>
+          <SessionProvider>
+            <Header />
+            {children}
+          </SessionProvider>
+        </Provider>
       </body >
     </html >
   );
