@@ -100,7 +100,7 @@ model Purchase {
   updatedAt          DateTime @updatedAt
 }
 
-model SKU {
+model SkuStock {
   id          Int      @id @default(autoincrement())
   sku         String   @unique
   productName String
@@ -108,28 +108,33 @@ model SKU {
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  stocks      Stock[] 
+
+  // Relation to Stock and StockItem
+  stockItems  StockItem[] 
 }
 
 model Stock {
   id                Int      @id @default(autoincrement())
-  skuId             Int      
-  stockQuantity     Int
   warehouseLocation String
   orderDescription  String?
-  
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
-  sku               SKU      @relation(fields: [skuId], references: [id])
-  @@unique([skuId, warehouseLocation])
+  // Relation to StockItem
+  items             StockItem[] 
 }
 
-// model BankAccount {
-//   id         Int       @id @default(autoincrement())
-//   bankName   String
-//   purchase   Purchase  @relation(fields: [purchaseId], references: [id])
-//   purchaseId Int
-//   createdAt  DateTime  @default(now())
-//   updatedAt  DateTime  @updatedAt
-// }
+model StockItem {
+  id            Int      @id @default(autoincrement())
+  skuId         Int      
+  stockId       Int      
+  stockQuantity Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  // Relations
+  stock         Stock    @relation(fields: [stockId], references: [id], onDelete: Cascade)
+  sku           SkuStock @relation(fields: [skuId], references: [id], onDelete: Cascade)
+  
+  @@unique([stockId, skuId])
+}

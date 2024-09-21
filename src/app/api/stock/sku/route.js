@@ -18,7 +18,7 @@ export async function POST(req) {
             );
         }
 
-        const existingSku = await prisma.sku.findUnique({
+        const existingSku = await prisma.skuStock.findUnique({
             where: {
                 sku: sku,
             },
@@ -34,7 +34,7 @@ export async function POST(req) {
             );
         }
 
-        const newSku = await prisma.sku.create({
+        const newSku = await prisma.skuStock.create({
             data: {
                 sku,
                 productName,
@@ -62,7 +62,8 @@ export async function POST(req) {
 
 export async function GET() {
     try {
-        const skus = await prisma.sku.findMany();
+        const skus = await prisma.skuStock.findMany();
+        if(skus.length <0) return new Response(JSON.stringify({message: "No Data"}))
 
         return new Response(JSON.stringify(skus), {
             status: 200,
@@ -71,7 +72,7 @@ export async function GET() {
     } catch (error) {
         console.error('Error fetching SKU entries:', error);
         return new Response(
-            JSON.stringify({ message: 'Failed to fetch SKU entries.', error: error.message }),
+            JSON.stringify({ message: 'Failed to fetch SKU.', error: error.message }),
             {
                 status: 500,
                 headers: { 'Content-Type': 'application/json' },

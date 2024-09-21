@@ -1,9 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import bankDetailsReducer from './slice/bankDetailsSlice';
+import { bankDetailsReducer, skuReducer } from './slice';
 
 export const store = configureStore({
   reducer: {
     bankDetails: bankDetailsReducer,
+    sku: skuReducer,
   },
 });
 

@@ -22,8 +22,6 @@ export async function POST(req) {
       purchaseBill,
     } = body;
 
-    console.log(body);
-
     if (!vendorName || !paidDate || !amountPaid) {
       return new Response(
         JSON.stringify({ message: 'Missing required fields' }),

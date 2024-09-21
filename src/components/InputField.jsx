@@ -14,9 +14,9 @@ const InputField = ({ label, type, id, placeholder, value, onChange, required, o
           onChange={onChange}
           required={required}
         >
-          {options.map((option, index) => (
-            <option key={index} value={option}>
-              {option}
+          {options.map((option) => (
+              <option key={option.value} value={option.value}>
+              {option.label}
             </option>
           ))}
         </select>

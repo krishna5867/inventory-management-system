@@ -49,7 +49,6 @@ export async function POST(req) {
 
 export async function GET(req) {
     try {
-        // Fetch all bank details from the database
         const bankDetails = await prisma.bankDetails.findMany();
 
         return new Response(JSON.stringify(bankDetails), {
