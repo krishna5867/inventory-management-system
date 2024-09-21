@@ -90,8 +90,9 @@ const Purchase = () => {
 
   return (
     <>
-      <div className="bg-white mt-4 ml-10 -mr-16 md:ml-40 sm:-mr-28 lg:-mr-0 lg:ml-32 rounded-lg max-w-4xl mx-auto p-5 h-[600px] overflow-hidden overflow-y-scroll scrollbar-hide">
-        <form onSubmit={handleSubmit}>
+       <h1 className="text-2xl font-bold my-6 ml-20 sm:ml-32 lg:ml-28">Purchase Management</h1>
+      <div className="bg-white w-auto ml-20 -mr-12 sm:ml-32 sm:-mr-16 md:-mr-24 lg:-mr-0 lg:ml-24 xl:ml-28 rounded-lg p-5 py-8 my-3 h-[533px] overflow-hidden overflow-y-scroll scrollbar-hide">
+      <form onSubmit={handleSubmit}>
           <InputField
             label="Vendor Name"
             type="text"
@@ -280,4 +281,4 @@ const Purchase = () => {
   );
 };
 
-export default YourComponent;
+export default Purchase;
