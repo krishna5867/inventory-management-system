@@ -1,65 +1,80 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Modal from "@/components/Modal";
 import InputField from "@/components/InputField";
 
 export default function StockManagement() {
-  const [items, setItems] = useState([{ sku: "", quantity: "" }]);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
-    productName: "",
-    stockQuantity: "",
-    warehouse: "",
+    warehouse: "jaipur",
     orderNotes: "",
+    items: [{ sku: "", quantity: "" }],
   });
-  const [products, setProducts] = useState([]);
-  const [successMessage, setSuccessMessage] = useState("");
   const router = useRouter();
 
-  useEffect(() => {
-    const storedProducts = JSON.parse(localStorage.getItem("products")) || [];
-    setProducts(storedProducts);
-  }, []);
-
-  const handleModalToggle = () => setModalOpen(!modalOpen);
-
   const handleAddItem = () => {
-    setItems([...items, { sku: "", quantity: "" }]);
+    setFormData((prevData) => ({
+      ...prevData,
+      items: [...prevData.items, { sku: "", quantity: "" }],
+    }));
   };
 
   const handleRemoveItem = (index) => {
-    setItems(items.filter((_, i) => i !== index));
+    setFormData((prevData) => ({
+      ...prevData,
+      items: prevData.items.filter((_, i) => i !== index),
+    }));
   };
 
-  const handleInputChange = (index, field, value) => {
-    setItems(items.map((item, i) => (i === index ? { ...item, [field]: value } : item)));
+  const handleFormDataChange = (field, value, index = null) => {
+    if (index !== null) {
+      setFormData((prevData) => ({
+        ...prevData,
+        items: prevData.items.map((item, i) =>
+          i === index ? { ...item, [field]: value } : item
+        ),
+      }));
+    } else {
+      setFormData((prevData) => ({ ...prevData, [field]: value }));
+    }
   };
 
   const handleCreateStockOrder = () => {
-    console.log("Creating stock order with the following values:");
-    console.log("Items: ", items);
-    console.log("Form Data: ", formData);
+    console.log("Creating stock order:", formData);
   };
 
+  const skuFields = [
+    { label: "SKU", name: "sku", type: "text", placeholder: "Enter SKU", required: true },
+    { label: "Product Name", name: "productName", type: "text", placeholder: "Enter Product Name", required: true },
+    { label: "Description", name: "description", type: "text", placeholder: "Enter Description", isTextArea: true },
+  ];
+
   return (
-    <div className="w-full ml-16 sm:ml-24 md:ml-32 lg:ml-10 xl:ml-16 mt-6 text-black h-[600px] overflow-hidden overflow-y-scroll scrollbar-hide">
+    <div className="w-full ml-16 mt-6 text-black h-[600px] overflow-y-scroll">
       <h1 className="text-2xl font-bold mb-4">Stock Management</h1>
       <div className="bg-white p-6 rounded-lg space-y-4">
         <h2 className="font-bold text-lg">Add New Stock Order</h2>
-        <button onClick={handleModalToggle} className="py-2 px-4 bg-blue-500 text-white rounded">
+        <button onClick={() => setIsModalOpen(true)} className="py-2 px-4 bg-blue-500 text-white rounded">
           Add New SKU
         </button>
-        <Modal isOpen={modalOpen} onClose={handleModalToggle} onSubmit={handleModalToggle} />
-        {items.map((item, index) => (
-          <div key={index} className="flex flex-col sm:flex-row space-x-0 sm:space-x-2">
+        <Modal 
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSubmit={() => console.log("Submitting SKU")}
+          title="Add New SKU"
+          fields={skuFields}
+        />
+        
+        {formData.items.map((item, index) => (
+          <div key={index} className="flex space-x-2">
             <InputField
               label="SKU"
               isSelect
               id={`sku-${index}`}
-              options={["Select SKU / Product", "product 1"]}
+              options={["Select SKU", "Product 1"]}
               value={item.sku}
-              onChange={(e) => handleInputChange(index, "sku", e.target.value)}
+              onChange={(e) => handleFormDataChange("sku", e.target.value, index)}
             />
             <InputField
               label="Quantity"
@@ -67,11 +82,11 @@ export default function StockManagement() {
               id={`quantity-${index}`}
               placeholder="Quantity"
               value={item.quantity}
-              onChange={(e) => handleInputChange(index, "quantity", e.target.value)}
+              onChange={(e) => handleFormDataChange("quantity", e.target.value, index)}
             />
             {index > 0 && (
               <button
-                className="bg-red-500 text-white px-2 py-1 rounded h-full mt-8"
+                className="bg-red-500 text-white px-2 py-1 rounded mt-8"
                 onClick={() => handleRemoveItem(index)}
               >
                 Remove
@@ -79,16 +94,33 @@ export default function StockManagement() {
             )}
           </div>
         ))}
+
         <button className="bg-green-500 text-white p-2 rounded" onClick={handleAddItem}>
           Add
         </button>
-        <InputField label="Warehouse" isSelect id="warehouse" options={["Jaipur", "Banglore"]} />
-        <InputField label="Order Notes" isTextArea id="orderNotes" placeholder="Add order notes" />
+
+        <InputField
+          label="Warehouse"
+          isSelect
+          id="warehouse"
+          options={["Jaipur", "Bangalore"]}
+          value={formData.warehouse}
+          onChange={(e) => handleFormDataChange("warehouse", e.target.value)}
+        />
+        <InputField
+          label="Order Notes"
+          isTextArea
+          id="orderNotes"
+          placeholder="Add order notes"
+          value={formData.orderNotes}
+          onChange={(e) => handleFormDataChange("orderNotes", e.target.value)}
+        />
+
         <button className="bg-blue-500 text-white p-2 rounded w-full" onClick={handleCreateStockOrder}>
           Create Stock Order
         </button>
       </div>
-      {successMessage && <div className="mb-6 text-green-500 font-semibold">{successMessage}</div>}
+
       <div className="flex justify-end mb-4">
         <button
           onClick={() => router.push("/dashboard/stock/show-data")}
@@ -100,3 +132,9 @@ export default function StockManagement() {
     </div>
   );
 }
+
+
+
+
+
+

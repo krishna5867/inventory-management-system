@@ -75,7 +75,7 @@ export default function SalesLedger() {
         <h1 className="text-2xl font-bold mb-4">Sales Ledger</h1>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <form onSubmit={handleSubmit} className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4 bg-white p-5 py-10">
           <div>
             <label className="block text-sm font-medium">Customer</label>
             <input
