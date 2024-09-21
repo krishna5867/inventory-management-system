@@ -100,6 +100,30 @@ model Purchase {
   updatedAt          DateTime @updatedAt
 }
 
+model SKU {
+  id          Int      @id @default(autoincrement())
+  sku         String   @unique
+  productName String
+  description String?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  stocks      Stock[] 
+}
+
+model Stock {
+  id                Int      @id @default(autoincrement())
+  skuId             Int      
+  stockQuantity     Int
+  warehouseLocation String
+  orderDescription  String?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  sku               SKU      @relation(fields: [skuId], references: [id])
+  @@unique([skuId, warehouseLocation])
+}
 
 // model BankAccount {
 //   id         Int       @id @default(autoincrement())
