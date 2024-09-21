@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import InputField from '@/components/InputField';
@@ -8,7 +7,7 @@ import { CiBank } from "react-icons/ci";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const YourComponent = () => {
+const Purchase = () => {
   const [formData, setFormData] = useState({
     vendorName: '',
     tds: 'no',
@@ -188,6 +187,7 @@ const YourComponent = () => {
               options={["Jaipur", "Bangalore"]}
               value={formData.warehouseLocation}
               onChange={handleInputChange}
+              isTextArea={true}
             />
           </div>
 

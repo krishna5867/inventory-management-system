@@ -18,7 +18,7 @@ const Header = () => {
       <div className='w-full bg-gray-800 text-black h-[70px]'>
         <div className='flex items-center justify-between px-4 py-4'>
           <div>
-              <h2 className='text-white font-semibold hidden lg:block hover:text-blue-500 cursor-pointer underline decoration-1 decoration-dotted decoration-gray-500 underline-offset-8'>Accounting App</h2>
+              <h2 className='text-white font-semibold hidden lg:block hover:text-blue-500 cursor-pointer'>Accounting App</h2>
           </div>
           <div className='text-white'>
           </div>
