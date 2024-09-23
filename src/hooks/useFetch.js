@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 const useFetch = ({ url }) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [data, setData] = useState(null);
 
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         setLoading(true);
         setError(null);
         try {
@@ -22,7 +22,7 @@ const useFetch = ({ url }) => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [url]); 
 
     return { fetchData, data, loading, error };
 };

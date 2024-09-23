@@ -67,3 +67,27 @@ export async function POST(req) {
     await prisma.$disconnect();
   }
 }
+
+
+
+export async function GET() {
+  try {
+      const purchase = await prisma.purchase.findMany({});
+
+      return new Response(JSON.stringify(purchase), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+      });
+  } catch (error) {
+      console.error('Error fetching purchase entries:', error);
+      return new Response(
+          JSON.stringify({ message: 'Failed to fetch purchase entries.', error: error.message }),
+          {
+              status: 500,
+              headers: { 'Content-Type': 'application/json' },
+          }
+      );
+  } finally {
+      await prisma.$disconnect();
+  }
+}

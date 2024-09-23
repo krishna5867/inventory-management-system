@@ -4,9 +4,16 @@ import Link from "next/link";
 import { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoClose } from "react-icons/io5";
+import { usePathname  } from 'next/navigation'
 
 export default function LayoutClient({ children }) {
   const [isVisible, setIsVisible] = useState(false);
+  const pathname  = usePathname ();
+
+  const isActive = (path) => {
+    return pathname === path ? "bg-gray-700" : "";
+  };
+  
 
   const handleClick = () => {
     setIsVisible(!isVisible);
@@ -26,7 +33,6 @@ export default function LayoutClient({ children }) {
         )}
       </div>
 
-      {/* NavBar */}
       <div
         className={`shadow-lg absolute top-0 left-0  lg:static w-1/2 sm:w-1/4 lg:w-1/6 pb-10 lg:pb-0 h-screen lg:h-[625px] bg-gray-800 text-white py-2 z-10 transform transition-transform duration-300 ease-in-out ${
           isVisible ? "translate-x-0" : "-translate-x-full"
@@ -34,32 +40,27 @@ export default function LayoutClient({ children }) {
       >
         <div>
           <ul className="flex flex-col justify-center items-start gap-0" onClick={handleClick}>
-            <Link href="/dashboard" className="w-full hover:bg-gray-700">
+            <Link href="/dashboard" className={`w-full hover:bg-gray-700 ${isActive("/dashboard")}`}>
               <li className="p-4 cursor-pointer uppercase">
                 Dashboard
               </li>
             </Link>
-            <Link href="/dashboard/sales" className="w-full hover:bg-gray-700">
+            <Link href="/dashboard/sales" className={`w-full hover:bg-gray-700 ${isActive("/dashboard/sales")}`}>
               <li className="p-4  cursor-pointer uppercase">
                 Sales
               </li>
             </Link>
-            <Link href="/dashboard/purchases" className="w-full hover:bg-gray-700">
+            <Link href="/dashboard/purchases" className={`w-full hover:bg-gray-700 ${isActive("/dashboard/purchases")}`}>
               <li className="p-4  cursor-pointer uppercase">
                 Purchases
               </li>
             </Link>
-            {/* <Link href="/dashboard/assets">
-              <li className="p-2 hover:text-blue-500 cursor-pointer uppercase">
-                Assets
-              </li>
-            </Link> */}
-            <Link href="/dashboard/stock" className="w-full hover:bg-gray-700">
+            <Link href="/dashboard/stock" className={`w-full hover:bg-gray-700 ${isActive("/dashboard/stock")}`}>
               <li className="p-4 cursor-pointer uppercase">
                 Stock
               </li>
             </Link>
-            <Link href="/dashboard/reports" className="w-full hover:bg-gray-700">
+            <Link href="/dashboard/reports" className={`w-full hover:bg-gray-700 ${isActive("/dashboard/reports")}`}>
               <li className="p-4 cursor-pointer uppercase">
                 Reports
               </li>

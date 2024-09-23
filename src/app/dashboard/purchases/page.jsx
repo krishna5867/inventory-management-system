@@ -38,7 +38,7 @@ const Purchase = () => {
     }));
 
     if (id === 'asset') {
-      setShowAssetFields(value === 'Yes');
+      setShowAssetFields(value === 'yes');
     }
   };
 
@@ -92,9 +92,9 @@ const Purchase = () => {
 
   return (
     <>
-       <h1 className="text-2xl font-bold my-6 ml-20 sm:ml-32 lg:ml-28">Purchase Management</h1>
+      <h1 className="text-2xl font-bold my-6 ml-20 sm:ml-32 lg:ml-28">Purchase Management</h1>
       <div className="bg-white w-auto ml-20 -mr-12 sm:ml-32 sm:-mr-16 md:-mr-24 lg:-mr-0 lg:ml-24 xl:ml-28 rounded-lg p-5 py-8 my-3 h-[533px] overflow-hidden overflow-y-scroll scrollbar-hide">
-      <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <InputField
             label="Vendor Name"
             type="text"
@@ -110,7 +110,10 @@ const Purchase = () => {
               label="TDS Applicable?"
               id="tds"
               isSelect={true}
-              options={["No", "Yes"]}
+              options={[
+                { label: "No", value: "no" },
+                { label: "Yes", value: "yes" }
+              ]}
               value={formData.tds}
               onChange={handleInputChange}
             />
@@ -118,7 +121,10 @@ const Purchase = () => {
               label="RCM Applicable?"
               id="rem"
               isSelect={true}
-              options={["No", "Yes"]}
+              options={[
+                { label: "No", value: "no" },
+                { label: "Yes", value: "yes" }
+              ]}
               value={formData.rem}
               onChange={handleInputChange}
             />
@@ -187,7 +193,10 @@ const Purchase = () => {
               label="warehouseLocation"
               id="warehouseLocation"
               isSelect={true}
-              options={["Jaipur", "Bangalore"]}
+              options={[
+                { label: "Jaipur", value: "Jaipur" },
+                { label: "Bangalore", value: "Bangalore" }
+              ]}
               value={formData.warehouseLocation}
               onChange={handleInputChange}
               isTextArea={true}
@@ -198,11 +207,13 @@ const Purchase = () => {
             label="Asset"
             id="asset"
             isSelect={true}
-            options={["No", "Yes"]}
+            options={[
+              { label: "No", value: "no" },
+              { label: "Yes", value: "yes" }
+            ]}
             value={formData.asset}
             onChange={handleInputChange}
           />
-
           {showAssetFields && (
             <div className="mt-4">
               <InputField
@@ -238,7 +249,12 @@ const Purchase = () => {
             label="Payment Method"
             id="paymentMethod"
             isSelect={true}
-            options={["Select Payment Method", "Cash", "Cheque", "Online Transfer"]}
+            options={[
+              { label: "Select Payment Method", value: "" },
+              { label: "Cash", value: "cash" },
+              { label: "Cheque", value: "cheque" },
+              { label: "Online Transfer", value: "online-transfer" }
+            ]}
             value={formData.paymentMethod}
             onChange={handleInputChange}
           />
@@ -270,7 +286,7 @@ const Purchase = () => {
 
         <div className="flex justify-end mb-4">
           <button
-            onClick={() => router.push("/dashboard/purchases/show-data")}
+            onClick={() => router.push("/dashboard/purchases/show")}
             className="bg-gray-600 mt-4 sm:mt-0 text-white px-4 py-2 rounded-md hover:bg-gray-700"
           >
             Show Data

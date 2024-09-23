@@ -19,7 +19,6 @@ const StockManagement = () => {
     orderDescription: "",
     items: [{ skuId: data?.length > 0 ? data[0]?.sku : "", stockQuantity: "" }],
   });
-  const [successMessage, setSuccessMessage] = useState("");
   const router = useRouter();
 
   const handleAddSku = async (formData) => {
@@ -92,7 +91,7 @@ const StockManagement = () => {
           warehouseLocation: 'Jaipur',
           orderDescription: '',
           items: [{ skuId: data?.length > 0 ? data[0]?.sku : "", stockQuantity: "" }],
-        }); 
+        });
 
       } else {
         toast.error(`${result.message}`);
@@ -121,7 +120,7 @@ const StockManagement = () => {
           {status === "failed" && <p>Error: {error}</p>}
 
           {status === "succeeded" && formData.items.map((item, index) => (
-            <div key={index} className="flex space-x-2">
+            <div key={index} className="flex space-x-2 items-center">
               <InputField
                 label="SKU"
                 isSelect
@@ -139,8 +138,8 @@ const StockManagement = () => {
                 onChange={(e) => handleFormDataChange("stockQuantity", e.target.value, index)}
               />
               {index > 0 && (
-                <button
-                  className="bg-red-500 text-white px-2 py-1 rounded mt-8"
+                <button type="button"
+                  className="bg-red-500 text-white px-2 py-1.5 rounded"
                   onClick={() => handleRemoveItem(index)}
                 >
                   Remove
@@ -149,7 +148,7 @@ const StockManagement = () => {
             </div>
           ))}
 
-          <button className="bg-green-500 text-white p-2 rounded" onClick={handleAddItem}>
+          <button type="button" className="bg-green-500 text-white p-2 rounded" onClick={handleAddItem}>
             Add
           </button>
 
@@ -177,10 +176,9 @@ const StockManagement = () => {
             Create Stock Order
           </button>
         </div>
-        {successMessage && <div className="mb-6 text-green-500 font-semibold">{successMessage}</div>}
-
         <div className="flex justify-end mb-4">
           <button
+            type="button"
             onClick={() => router.push("/dashboard/stock/show-data")}
             className="bg-gray-600 text-white mt-6 px-4 py-2 rounded-md hover:bg-gray-700"
           >

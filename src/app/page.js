@@ -1,7 +1,15 @@
-export default function Home() {
-  return (
-    <div>
-      <h1>Home Page</h1>
-    </div>
-  );
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
+
+
+export default async function Home() {
+    const session = await getServerSession();
+
+  if (!session) {
+    redirect('/signin');
+  }
+  return  redirect('/dashboard');; 
 }
+
+
+
