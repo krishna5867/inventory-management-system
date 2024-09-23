@@ -41,7 +41,7 @@ export async function POST(req) {
                 description,
             },
         });
-
+        
         return new Response(JSON.stringify(newSku), {
             status: 201,
             headers: { 'Content-Type': 'application/json' },
