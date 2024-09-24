@@ -1,4 +1,4 @@
-"use client"; 
+'use client';
 
 import { useState, useEffect } from 'react';
 
@@ -8,7 +8,8 @@ export default function CashFlowStatement() {
   const [netCashFlow, setNetCashFlow] = useState(0);
 
   useEffect(() => {
-    const storedTransactions = JSON.parse(localStorage.getItem('transactions')) || [];
+    const storedTransactions =
+      JSON.parse(localStorage.getItem('transactions')) || [];
 
     const totalInflow = storedTransactions
       .filter((transaction) => transaction.type === 'Inflow')
@@ -28,9 +29,15 @@ export default function CashFlowStatement() {
       <h1 className="text-2xl font-bold mb-4">Cash Flow Statement</h1>
 
       <div className="mb-4">
-        <p><strong>Cash Inflow:</strong> ${cashInflow.toFixed(2)}</p>
-        <p><strong>Cash Outflow:</strong> ${cashOutflow.toFixed(2)}</p>
-        <p><strong>Net Cash Flow:</strong> ${netCashFlow.toFixed(2)}</p>
+        <p>
+          <strong>Cash Inflow:</strong> ${cashInflow.toFixed(2)}
+        </p>
+        <p>
+          <strong>Cash Outflow:</strong> ${cashOutflow.toFixed(2)}
+        </p>
+        <p>
+          <strong>Net Cash Flow:</strong> ${netCashFlow.toFixed(2)}
+        </p>
       </div>
     </div>
   );

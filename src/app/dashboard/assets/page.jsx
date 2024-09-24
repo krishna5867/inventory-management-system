@@ -1,4 +1,4 @@
-"use client";  
+'use client';
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -8,19 +8,19 @@ export default function AssetManagement() {
     name: '',
     purchaseCost: '',
     purchaseDate: '',
-    usefulLife: '',  
-    assetType: '',   
+    usefulLife: '',
+    assetType: '',
   });
 
   const [assets, setAssets] = useState([]);
   const [successMessage, setSuccessMessage] = useState('');
-  const router = useRouter();  
+  const router = useRouter();
 
   const depreciationRates = {
-    equipment: 10, 
-    vehicles: 15, 
-    furniture: 5,   
-    other: 8,     
+    equipment: 10,
+    vehicles: 15,
+    furniture: 5,
+    other: 8,
   };
 
   useEffect(() => {
@@ -28,14 +28,21 @@ export default function AssetManagement() {
     setAssets(storedAssets);
   }, []);
 
-  const calculateDepreciation = (purchaseCost, usefulLife, assetType, purchaseDate) => {
+  const calculateDepreciation = (
+    purchaseCost,
+    usefulLife,
+    assetType,
+    purchaseDate
+  ) => {
     const currentYear = new Date().getFullYear();
     const purchaseYear = new Date(purchaseDate).getFullYear();
     const yearsPassed = currentYear - purchaseYear;
 
-    const depreciationRate = depreciationRates[assetType] || depreciationRates['other'];
+    const depreciationRate =
+      depreciationRates[assetType] || depreciationRates['other'];
 
-    const totalDepreciation = (purchaseCost * (depreciationRate / 100)) * yearsPassed;
+    const totalDepreciation =
+      purchaseCost * (depreciationRate / 100) * yearsPassed;
 
     const currentValue = purchaseCost - totalDepreciation;
 
@@ -54,12 +61,9 @@ export default function AssetManagement() {
       formData.purchaseDate
     );
 
-    const newAssets = [
-      ...assets,
-      { ...formData, purchaseCost, currentValue },
-    ];
+    const newAssets = [...assets, { ...formData, purchaseCost, currentValue }];
     setAssets(newAssets);
-    localStorage.setItem('assets', JSON.stringify(newAssets));  
+    localStorage.setItem('assets', JSON.stringify(newAssets));
 
     setFormData({
       name: '',
@@ -84,7 +88,10 @@ export default function AssetManagement() {
     <div className="w-full ml-12 sm:ml-24 md:ml-36 lg:ml-20 mt-6 text-black">
       <h1 className="text-2xl font-bold mb-4">Asset Management</h1>
 
-      <form onSubmit={handleSubmit} className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+      <form
+        onSubmit={handleSubmit}
+        className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4"
+      >
         <div>
           <label className="block text-sm font-medium">Asset Name</label>
           <input
@@ -121,7 +128,9 @@ export default function AssetManagement() {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium">Useful Life (years)</label>
+          <label className="block text-sm font-medium">
+            Useful Life (years)
+          </label>
           <input
             type="number"
             name="usefulLife"
@@ -166,7 +175,7 @@ export default function AssetManagement() {
 
       <div className="flex justify-end mb-4">
         <button
-          onClick={() => router.push('/dashboard/assets/show-data')}  
+          onClick={() => router.push('/dashboard/assets/show-data')}
           className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700"
         >
           Show Data

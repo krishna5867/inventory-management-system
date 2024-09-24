@@ -1,6 +1,6 @@
-import prisma from "@/lib/prisma";
+import prisma from '@/lib/prisma';
 
-export async function POST(req) { 
+export async function POST(req) {
   try {
     const body = await req.json();
 
@@ -45,7 +45,7 @@ export async function POST(req) {
         assetDescription,
         purchaseDescription,
         purchaseBill,
-      }
+      },
     });
 
     return new Response(JSON.stringify(newPurchase), {
@@ -68,58 +68,64 @@ export async function POST(req) {
 
 export async function GET() {
   try {
-      const purchase = await prisma.purchase.findMany({});
+    const purchase = await prisma.purchase.findMany({});
 
-      return new Response(JSON.stringify(purchase), {
-          status: 200,
-          headers: { 'Content-Type': 'application/json' },
-      });
+    return new Response(JSON.stringify(purchase), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
   } catch (error) {
-      console.error('Error fetching purchase entries:', error);
-      return new Response(
-          JSON.stringify({ message: 'Failed to fetch purchase entries.', error: error.message }),
-          {
-              status: 500,
-              headers: { 'Content-Type': 'application/json' },
-          }
-      );
+    console.error('Error fetching purchase entries:', error);
+    return new Response(
+      JSON.stringify({
+        message: 'Failed to fetch purchase entries.',
+        error: error.message,
+      }),
+      {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
   } finally {
-      await prisma.$disconnect();
+    await prisma.$disconnect();
   }
 }
 
 export async function DELETE(request) {
   try {
-      const { id } = await request.json();
+    const { id } = await request.json();
 
-      if (!id) {
-          return new Response(
-              JSON.stringify({ message: 'Purchase ID is required for deletion.' }),
-              {
-                  status: 400,
-                  headers: { 'Content-Type': 'application/json' },
-              }
-          );
-      }
-
-      const deletedPurchase = await prisma.purchase.delete({
-          where: { id },
-      });
-
-      return new Response(JSON.stringify(deletedPurchase), {
-          status: 200,
-          headers: { 'Content-Type': 'application/json' },
-      });
-  } catch (error) {
-      console.error('Error deleting purchases entry:', error);
+    if (!id) {
       return new Response(
-          JSON.stringify({ message: 'Failed to delete purchases entry.', error: error.message }),
-          {
-              status: 500,
-              headers: { 'Content-Type': 'application/json' },
-          }
+        JSON.stringify({ message: 'Purchase ID is required for deletion.' }),
+        {
+          status: 400,
+          headers: { 'Content-Type': 'application/json' },
+        }
       );
+    }
+
+    const deletedPurchase = await prisma.purchase.delete({
+      where: { id },
+    });
+
+    return new Response(JSON.stringify(deletedPurchase), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  } catch (error) {
+    console.error('Error deleting purchases entry:', error);
+    return new Response(
+      JSON.stringify({
+        message: 'Failed to delete purchases entry.',
+        error: error.message,
+      }),
+      {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
   } finally {
-      await prisma.$disconnect();
+    await prisma.$disconnect();
   }
 }

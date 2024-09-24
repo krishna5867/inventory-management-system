@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import useFetch from '@/hooks/useFetch';
 import { useState, useEffect } from 'react';
@@ -10,16 +10,22 @@ export default function ShowStockData() {
   const [products, setProducts] = useState([]);
   const [lowStockAlerts, setLowStockAlerts] = useState([]);
 
-  // const { fetchData, data: stocks, loading, error } = useFetch({ url: '/api/stock' });
-  const {stock} = useStock();
-  const {data:stocks, status, error} = stock
-  
+  const {
+    fetchData,
+    data: stocks,
+    loading,
+    error,
+  } = useFetch({ url: '/api/stock' });
+  // const {stock} = useStock();
+  // const {data:stocks, status, error} = stock
 
   const handleDelete = async (stockId) => {
     try {
-      const confirmDelete = confirm('Are you sure you want to delete this stock?');
+      const confirmDelete = confirm(
+        'Are you sure you want to delete this stock?'
+      );
       if (!confirmDelete) return;
-  
+
       const response = await fetch(`/api/stock`, {
         method: 'DELETE',
         headers: {
@@ -27,9 +33,10 @@ export default function ShowStockData() {
         },
         body: JSON.stringify({ id: stockId }),
       });
-  
+
       if (response.ok) {
         toast.success('Stock deleted successfully.');
+        fetchData();
       } else {
         const errorData = await response.json();
         toast.error(`Failed to delete stock: ${errorData.message}`);
@@ -45,11 +52,11 @@ export default function ShowStockData() {
     localStorage.removeItem('products');
   };
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, [fetchData]);
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
-  if (status === 'loading') return <p>Loading...</p>;
+  if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
   // if (!stocks || stocks.length === 0) {
@@ -83,34 +90,36 @@ export default function ShowStockData() {
               <th className="px-4 py-2">Action</th>
             </tr>
           </thead>
-           <tbody>
-            {stocks && stocks.map(stock => (
-              <tr key={stock.id} className="border-b">
-          
-                <td className="border px-4 py-2">
-                  {stock.items.map((item, index) => (
-                    <div key={index} className="mb-2">
-                      <p>
-                        <strong>Product:</strong> {item.sku.productName}
-                      </p>
-                      <p>
-                        <strong>Quantity:</strong> {item.stockQuantity}
-                      </p>
-                    </div>
-                  ))}
-                </td>
-                <td className="border px-4 py-2">{stock.warehouseLocation}</td>
-                <td className="border px-4 py-2">{stock.orderDescription}</td>
-                <td className="border px-4 py-2">
-                  <button
-                    onClick={() => handleDelete(stock.id)}
-                    className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
+          <tbody>
+            {stocks &&
+              stocks.map((stock) => (
+                <tr key={stock.id} className="border-b">
+                  <td className="border px-4 py-2">
+                    {stock.items.map((item, index) => (
+                      <div key={index} className="mb-2">
+                        <p>
+                          <strong>Product:</strong> {item.sku.productName}
+                        </p>
+                        <p>
+                          <strong>Quantity:</strong> {item.stockQuantity}
+                        </p>
+                      </div>
+                    ))}
+                  </td>
+                  <td className="border px-4 py-2">
+                    {stock.warehouseLocation}
+                  </td>
+                  <td className="border px-4 py-2">{stock.orderDescription}</td>
+                  <td className="border px-4 py-2">
+                    <button
+                      onClick={() => handleDelete(stock.id)}
+                      className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>

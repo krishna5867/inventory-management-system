@@ -1,34 +1,36 @@
-"use client"; 
+'use client';
 
 import { useState, useEffect } from 'react';
-import jsPDF from 'jspdf';  
+import jsPDF from 'jspdf';
 
 export default function ShowPurchaseData() {
   const [purchases, setPurchases] = useState([]);
-  const [filteredPurchases, setFilteredPurchases] = useState([]); 
-  const [filterSupplier, setFilterSupplier] = useState('');  
-  const [filterDate, setFilterDate] = useState('');  
+  const [filteredPurchases, setFilteredPurchases] = useState([]);
+  const [filterSupplier, setFilterSupplier] = useState('');
+  const [filterDate, setFilterDate] = useState('');
 
   useEffect(() => {
     const storedPurchases = localStorage.getItem('purchases');
     if (storedPurchases) {
       const purchaseData = JSON.parse(storedPurchases);
       setPurchases(purchaseData);
-      setFilteredPurchases(purchaseData);  
+      setFilteredPurchases(purchaseData);
     }
   }, []);
 
   const handleDelete = (indexToDelete) => {
-    const updatedPurchases = purchases.filter((_, index) => index !== indexToDelete);
+    const updatedPurchases = purchases.filter(
+      (_, index) => index !== indexToDelete
+    );
     setPurchases(updatedPurchases);
-    setFilteredPurchases(updatedPurchases);  
-    localStorage.setItem('purchases', JSON.stringify(updatedPurchases)); 
+    setFilteredPurchases(updatedPurchases);
+    localStorage.setItem('purchases', JSON.stringify(updatedPurchases));
   };
 
   const handleClearAll = () => {
-    setPurchases([]);  
-    setFilteredPurchases([]); 
-    localStorage.removeItem('purchases');  
+    setPurchases([]);
+    setFilteredPurchases([]);
+    localStorage.removeItem('purchases');
   };
 
   const generateInvoice = (purchase) => {
@@ -51,8 +53,10 @@ export default function ShowPurchaseData() {
   };
 
   const handleFilter = () => {
-    const filtered = purchases.filter(purchase => {
-      const isSupplierMatch = filterSupplier ? purchase.supplier.toLowerCase().includes(filterSupplier.toLowerCase()) : true;
+    const filtered = purchases.filter((purchase) => {
+      const isSupplierMatch = filterSupplier
+        ? purchase.supplier.toLowerCase().includes(filterSupplier.toLowerCase())
+        : true;
       const isDateMatch = filterDate ? purchase.date === filterDate : true;
       return isSupplierMatch && isDateMatch;
     });
@@ -65,7 +69,9 @@ export default function ShowPurchaseData() {
 
       <div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium">Filter by Supplier</label>
+          <label className="block text-sm font-medium">
+            Filter by Supplier
+          </label>
           <input
             type="text"
             value={filterSupplier}
@@ -107,57 +113,61 @@ export default function ShowPurchaseData() {
       )}
 
       <div className="max-h-screen overflow-y-auto lg:max-h-full lg:overflow-visible rounded">
-      <table className="min-w-full bg-white">
-        <thead>
-          <tr>
-            <th className="px-4 py-2">Supplier</th>
-            <th className="px-4 py-2">Product</th>
-            <th className="px-4 py-2">Quantity</th> 
-            <th className="px-4 py-2">Purchase Cost</th>
-            <th className="px-4 py-2">Tax</th>
-            <th className="px-4 py-2">Total Cost</th>
-            <th className="px-4 py-2">Payment Status</th>
-            <th className="px-4 py-2">Date</th>
-            <th className="px-4 py-2">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredPurchases.length > 0 ? (
-            filteredPurchases.map((purchase, index) => (
-              <tr key={index}>
-                <td className="border px-4 py-2">{purchase.supplier}</td>
-                <td className="border px-4 py-2">{purchase.product}</td>
-                <td className="border px-4 py-2">{purchase.quantity}</td> 
-                <td className="border px-4 py-2">${parseFloat(purchase.purchaseCost).toFixed(2)}</td>
-                <td className="border px-4 py-2">{purchase.tax}%</td>
-                <td className="border px-4 py-2">${purchase.totalCost}</td>
-                <td className="border px-4 py-2">{purchase.paymentStatus}</td>
-                <td className="border px-4 py-2">{purchase.date}</td>
-                <td className="border px-4 py-2">
-                  <div className="flex space-x-2">
-                    <button
-                      onClick={() => handleDelete(index)}  
-                      className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                    >
-                      Delete
-                    </button>
-                    <button
-                      onClick={() => generateInvoice(purchase)}  
-                      className="text-white px-2 py-1 rounded bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:ring-blue-300"
-                    >
-                      Generate Invoice
-                    </button>
-                  </div>
+        <table className="min-w-full bg-white">
+          <thead>
+            <tr>
+              <th className="px-4 py-2">Supplier</th>
+              <th className="px-4 py-2">Product</th>
+              <th className="px-4 py-2">Quantity</th>
+              <th className="px-4 py-2">Purchase Cost</th>
+              <th className="px-4 py-2">Tax</th>
+              <th className="px-4 py-2">Total Cost</th>
+              <th className="px-4 py-2">Payment Status</th>
+              <th className="px-4 py-2">Date</th>
+              <th className="px-4 py-2">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredPurchases.length > 0 ? (
+              filteredPurchases.map((purchase, index) => (
+                <tr key={index}>
+                  <td className="border px-4 py-2">{purchase.supplier}</td>
+                  <td className="border px-4 py-2">{purchase.product}</td>
+                  <td className="border px-4 py-2">{purchase.quantity}</td>
+                  <td className="border px-4 py-2">
+                    ${parseFloat(purchase.purchaseCost).toFixed(2)}
+                  </td>
+                  <td className="border px-4 py-2">{purchase.tax}%</td>
+                  <td className="border px-4 py-2">${purchase.totalCost}</td>
+                  <td className="border px-4 py-2">{purchase.paymentStatus}</td>
+                  <td className="border px-4 py-2">{purchase.date}</td>
+                  <td className="border px-4 py-2">
+                    <div className="flex space-x-2">
+                      <button
+                        onClick={() => handleDelete(index)}
+                        className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                      >
+                        Delete
+                      </button>
+                      <button
+                        onClick={() => generateInvoice(purchase)}
+                        className="text-white px-2 py-1 rounded bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:ring-blue-300"
+                      >
+                        Generate Invoice
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="9" className="text-center p-4">
+                  No purchase data available
                 </td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="9" className="text-center p-4">No purchase data available</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            )}
+          </tbody>
+        </table>
       </div>
     </div>
   );

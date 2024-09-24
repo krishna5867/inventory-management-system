@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
 import React, { useEffect } from 'react';
 import useSales from '@/hooks/useSales';
 
 const PurchaseTablePage = () => {
-  const {sales} = useSales();
-  const {data, status, error} = sales;
+  const { sales } = useSales();
+  const { data, status, error } = sales;
 
-  if (status === "loading") return <p>Loading...</p>;
+  if (status === 'loading') return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
   return (
@@ -18,11 +18,15 @@ const PurchaseTablePage = () => {
         <table className="min-w-full bg-white border border-gray-300">
           <thead>
             <tr className="bg-gray-10">
-              <th className="px-4 py-2 border border-gray-300">Customer Name</th>
+              <th className="px-4 py-2 border border-gray-300">
+                Customer Name
+              </th>
               <th className="px-4 py-2 border border-gray-300">Product</th>
               <th className="px-4 py-2 border border-gray-300">price</th>
               <th className="px-4 py-2 border border-gray-300">Tax</th>
-              <th className="px-4 py-2 border border-gray-300">Payment Status</th>
+              <th className="px-4 py-2 border border-gray-300">
+                Payment Status
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -38,7 +42,9 @@ const PurchaseTablePage = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="12" className="text-center p-4">No Sales data available</td>
+                <td colSpan="12" className="text-center p-4">
+                  No Sales data available
+                </td>
               </tr>
             )}
           </tbody>

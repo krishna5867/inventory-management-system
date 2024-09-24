@@ -1,6 +1,5 @@
-import prisma from "@/lib/prisma";
-import bcrypt from "bcrypt";
-
+import prisma from '@/lib/prisma';
+import bcrypt from 'bcrypt';
 
 export async function POST(req) {
   try {
@@ -8,10 +7,13 @@ export async function POST(req) {
 
     // Validate the request payload
     if (!email || !password || !name) {
-      return new Response(JSON.stringify({ message: "Email, password, and name are required" }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      });
+      return new Response(
+        JSON.stringify({ message: 'Email, password, and name are required' }),
+        {
+          status: 400,
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
     }
 
     // Check if the user already exists
@@ -20,7 +22,7 @@ export async function POST(req) {
     });
 
     if (existingUser) {
-      return new Response(JSON.stringify({ message: "User already exists" }), {
+      return new Response(JSON.stringify({ message: 'User already exists' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' },
       });
@@ -35,21 +37,23 @@ export async function POST(req) {
         name,
         email,
         password: hashedPassword,
-        role: role || 'accountant',  // Default role to 'accountant' if not provided
+        role: role || 'accountant', // Default role to 'accountant' if not provided
       },
     });
 
-    return new Response(JSON.stringify({
-      message: "User created successfully",
-      user: { name: user.name, email: user.email, role: user.role },
-    }), {
-      status: 201,
-      headers: { 'Content-Type': 'application/json' },
-    });
-
+    return new Response(
+      JSON.stringify({
+        message: 'User created successfully',
+        user: { name: user.name, email: user.email, role: user.role },
+      }),
+      {
+        status: 201,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
   } catch (error) {
-    console.error("Error registering user:", error);
-    return new Response(JSON.stringify({ message: "Something went wrong" }), {
+    console.error('Error registering user:', error);
+    return new Response(JSON.stringify({ message: 'Something went wrong' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });

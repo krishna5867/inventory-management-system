@@ -1,13 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-export const fetchStock = createAsyncThunk(
-  'stocks/fetchStock',
-  async () => {
-    const response = await fetch('/api/stock');
-    const data = await response.json();
-    return data;
-  }
-);
+export const fetchStock = createAsyncThunk('stocks/fetchStock', async () => {
+  const response = await fetch('/api/stock');
+  const data = await response.json();
+  return data;
+});
 
 const stockSlice = createSlice({
   name: 'stocks',
@@ -34,4 +31,3 @@ const stockSlice = createSlice({
 });
 
 export default stockSlice.reducer;
-

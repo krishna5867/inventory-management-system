@@ -1,9 +1,23 @@
-import React from "react";
+import React from 'react';
 
-const InputField = ({ label, type, id, placeholder, value, onChange, required, options, isSelect, isTextArea }) => {
+const InputField = ({
+  label,
+  type,
+  id,
+  placeholder,
+  value,
+  onChange,
+  required,
+  options,
+  isSelect,
+  isTextArea,
+}) => {
   return (
     <div className="mb-6">
-      <label htmlFor={id} className="block mb-2 text-sm font-medium text-gray-900">
+      <label
+        htmlFor={id}
+        className="block mb-2 text-sm font-medium text-gray-900"
+      >
         {label}
       </label>
       {isSelect ? (
@@ -15,7 +29,7 @@ const InputField = ({ label, type, id, placeholder, value, onChange, required, o
           required={required}
         >
           {options.map((option) => (
-              <option key={option.value} value={option.value}>
+            <option key={option.value} value={option.value}>
               {option.label}
             </option>
           ))}

@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchBankDetails } from '@/redux/slice/bankDetailsSlice';
 
 const useBankDetails = () => {
-    const bankDetails = useSelector((state) => state.bankDetails);
-    
-    const dispatch = useDispatch();
+  const bankDetails = useSelector((state) => state.bankDetails);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (bankDetails.status === 'idle') {

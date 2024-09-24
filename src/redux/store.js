@@ -1,5 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { bankDetailsReducer, skuReducer, salesReducer, stockReducer, purchasesReducer } from './slice';
+import {
+  bankDetailsReducer,
+  skuReducer,
+  salesReducer,
+  stockReducer,
+  purchasesReducer,
+} from './slice';
 
 export const store = configureStore({
   reducer: {
@@ -7,7 +13,7 @@ export const store = configureStore({
     sku: skuReducer,
     sales: salesReducer,
     stocks: stockReducer,
-    purchases: purchasesReducer
+    purchases: purchasesReducer,
   },
 });
 

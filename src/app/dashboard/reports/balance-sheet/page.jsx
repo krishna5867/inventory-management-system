@@ -1,4 +1,4 @@
-"use client"; 
+'use client';
 
 import { useState, useEffect } from 'react';
 
@@ -8,7 +8,8 @@ export default function BalanceSheet() {
   const [equity, setEquity] = useState(0);
 
   useEffect(() => {
-    const storedTransactions = JSON.parse(localStorage.getItem('transactions')) || [];
+    const storedTransactions =
+      JSON.parse(localStorage.getItem('transactions')) || [];
 
     const totalAssets = storedTransactions
       .filter((transaction) => transaction.category === 'Asset')
@@ -28,9 +29,15 @@ export default function BalanceSheet() {
       <h1 className="text-2xl font-bold mb-4">Balance Sheet</h1>
 
       <div className="mb-4">
-        <p><strong>Total Assets:</strong> ${assets.toFixed(2)}</p>
-        <p><strong>Total Liabilities:</strong> ${liabilities.toFixed(2)}</p>
-        <p><strong>Total Equity:</strong> ${equity.toFixed(2)}</p>
+        <p>
+          <strong>Total Assets:</strong> ${assets.toFixed(2)}
+        </p>
+        <p>
+          <strong>Total Liabilities:</strong> ${liabilities.toFixed(2)}
+        </p>
+        <p>
+          <strong>Total Equity:</strong> ${equity.toFixed(2)}
+        </p>
       </div>
     </div>
   );

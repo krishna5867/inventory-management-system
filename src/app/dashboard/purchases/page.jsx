@@ -1,15 +1,15 @@
-"use client";
+'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import InputField from '@/components/InputField';
 import AddBankModel from '@/components/AddBankModel';
-import { CiBank } from "react-icons/ci";
+import { CiBank } from 'react-icons/ci';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import useBankDetails from '@/hooks/useBankDetails';
 
 const Purchase = () => {
-  const { bankDetails, status, error, } = useBankDetails();
+  const { bankDetails, status, error } = useBankDetails();
   const [formData, setFormData] = useState({
     vendorName: '',
     tds: 'no',
@@ -92,7 +92,9 @@ const Purchase = () => {
 
   return (
     <>
-      <h1 className="text-2xl font-bold my-6 ml-20 sm:ml-32 lg:ml-28">Purchase Management</h1>
+      <h1 className="text-2xl font-bold my-6 ml-20 sm:ml-32 lg:ml-28">
+        Purchase Management
+      </h1>
       <div className="bg-white w-auto ml-20 -mr-12 sm:ml-32 sm:-mr-16 md:-mr-24 lg:-mr-0 lg:ml-24 xl:ml-28 rounded-lg p-5 py-8 my-3 h-[533px] overflow-hidden overflow-y-scroll scrollbar-hide">
         <form onSubmit={handleSubmit}>
           <InputField
@@ -111,8 +113,8 @@ const Purchase = () => {
               id="tds"
               isSelect={true}
               options={[
-                { label: "No", value: "no" },
-                { label: "Yes", value: "yes" }
+                { label: 'No', value: 'no' },
+                { label: 'Yes', value: 'yes' },
               ]}
               value={formData.tds}
               onChange={handleInputChange}
@@ -122,8 +124,8 @@ const Purchase = () => {
               id="rem"
               isSelect={true}
               options={[
-                { label: "No", value: "no" },
-                { label: "Yes", value: "yes" }
+                { label: 'No', value: 'no' },
+                { label: 'Yes', value: 'yes' },
               ]}
               value={formData.rem}
               onChange={handleInputChange}
@@ -154,7 +156,9 @@ const Purchase = () => {
                   className="ml-2 py-1 px-1 xl:ml-4 xl:py-2 xl:px-2 text-xs rounded bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:ring-blue-300 text-white"
                 >
                   <span className="hidden lg:block">Add Bank Account</span>
-                  <span className="block lg:hidden"><CiBank size={20} /></span>
+                  <span className="block lg:hidden">
+                    <CiBank size={20} />
+                  </span>
                 </button>
               </label>
               <select
@@ -194,8 +198,8 @@ const Purchase = () => {
               id="warehouseLocation"
               isSelect={true}
               options={[
-                { label: "Jaipur", value: "Jaipur" },
-                { label: "Bangalore", value: "Bangalore" }
+                { label: 'Jaipur', value: 'Jaipur' },
+                { label: 'Bangalore', value: 'Bangalore' },
               ]}
               value={formData.warehouseLocation}
               onChange={handleInputChange}
@@ -208,8 +212,8 @@ const Purchase = () => {
             id="asset"
             isSelect={true}
             options={[
-              { label: "No", value: "no" },
-              { label: "Yes", value: "yes" }
+              { label: 'No', value: 'no' },
+              { label: 'Yes', value: 'yes' },
             ]}
             value={formData.asset}
             onChange={handleInputChange}
@@ -250,10 +254,10 @@ const Purchase = () => {
             id="paymentMethod"
             isSelect={true}
             options={[
-              { label: "Select Payment Method", value: "" },
-              { label: "Cash", value: "cash" },
-              { label: "Cheque", value: "cheque" },
-              { label: "Online Transfer", value: "online-transfer" }
+              { label: 'Select Payment Method', value: '' },
+              { label: 'Cash', value: 'cash' },
+              { label: 'Cheque', value: 'cheque' },
+              { label: 'Online Transfer', value: 'online-transfer' },
             ]}
             value={formData.paymentMethod}
             onChange={handleInputChange}
@@ -272,7 +276,9 @@ const Purchase = () => {
             label="Upload Purchase Bill"
             type="file"
             id="purchaseBill"
-            onChange={(e) => setFormData({ ...formData, purchaseBill: e.target.files[0] })}
+            onChange={(e) =>
+              setFormData({ ...formData, purchaseBill: e.target.files[0] })
+            }
           />
 
           <button
@@ -283,10 +289,9 @@ const Purchase = () => {
           </button>
         </form>
 
-
         <div className="flex justify-end mb-4">
           <button
-            onClick={() => router.push("/dashboard/purchases/show")}
+            onClick={() => router.push('/dashboard/purchases/show')}
             className="bg-gray-600 mt-4 sm:mt-0 text-white px-4 py-2 rounded-md hover:bg-gray-700"
           >
             Show Data
@@ -295,7 +300,6 @@ const Purchase = () => {
       </div>
       <ToastContainer />
     </>
-
   );
 };
 

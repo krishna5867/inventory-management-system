@@ -1,19 +1,18 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchStock } from '@/redux/slice/stockSlice'; 
+import { fetchStock } from '@/redux/slice/stockSlice';
 
 const useStock = () => {
-  const stock = useSelector((state) => state.stocks); 
-  
   const dispatch = useDispatch();
+  const stock = useSelector((state) => state.stocks);
 
   useEffect(() => {
     if (stock.status === 'idle') {
       dispatch(fetchStock());
     }
-  }, [stock.status, dispatch]); 
+  }, [dispatch, stock.status]);
 
-  return { stock }; 
+  return { stock };
 };
 
-export default useStock
+export default useStock;

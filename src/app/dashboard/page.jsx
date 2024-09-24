@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
@@ -9,7 +9,7 @@ import {
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 } from 'chart.js';
 import Notification from '../../components/Notification';
 import { useSales, useStock, usePurchases } from '@/hooks';
@@ -29,21 +29,22 @@ export default function Dashboard() {
   const { stock } = useStock();
   const { purchases } = usePurchases();
 
-  // console.log(purchases.data);
-
+  // console.log(stock.data);
 
   const totalSalesPrice = sales.data.reduce((acc, curr) => {
     return acc + curr.price;
   }, 0);
 
   const totalStockQuantity = stock.data.reduce((accumulator, currentStock) => {
-    const totalQuantityPerStock = currentStock.items.reduce((innerAcc, item) => {
-      return innerAcc + item.stockQuantity;
-    }, 0);
+    const totalQuantityPerStock = currentStock.items.reduce(
+      (innerAcc, item) => {
+        return innerAcc + item.stockQuantity;
+      },
+      0
+    );
 
     return accumulator + totalQuantityPerStock;
   }, 0);
-
 
   const totalPurchasesAmount = purchases.data.reduce((acc, curr) => {
     return acc + curr.amountPaid;
@@ -67,16 +68,28 @@ export default function Dashboard() {
     ];
 
     const paymentReminders = unpaidInvoices
-      .filter(invoice => new Date(invoice.dueDate) < new Date(today))
-      .map(invoice => `Payment reminder: ${invoice.customer} owes $${invoice.amount} (due ${invoice.dueDate})`);
+      .filter((invoice) => new Date(invoice.dueDate) < new Date(today))
+      .map(
+        (invoice) =>
+          `Payment reminder: ${invoice.customer} owes $${invoice.amount} (due ${invoice.dueDate})`
+      );
 
     const stockAlerts = lowStockProducts
-      .filter(product => product.stockQuantity <= product.reorderLevel)
-      .map(product => `Low stock alert: ${product.productName} has only ${product.stockQuantity} units left (reorder level: ${product.reorderLevel})`);
+      .filter((product) => product.stockQuantity <= product.reorderLevel)
+      .map(
+        (product) =>
+          `Low stock alert: ${product.productName} has only ${product.stockQuantity} units left (reorder level: ${product.reorderLevel})`
+      );
 
-    const assetAlerts = assetUpdates.map(asset => `Asset update: ${asset.assetName} - ${asset.status}`);
+    const assetAlerts = assetUpdates.map(
+      (asset) => `Asset update: ${asset.assetName} - ${asset.status}`
+    );
 
-    const allNotifications = [...paymentReminders, ...stockAlerts, ...assetAlerts];
+    const allNotifications = [
+      ...paymentReminders,
+      ...stockAlerts,
+      ...assetAlerts,
+    ];
     setNotifications(allNotifications);
   }, []);
 
@@ -85,17 +98,26 @@ export default function Dashboard() {
     datasets: [
       {
         label: 'Overview',
-        data: [totalSalesPrice, totalPurchasesAmount, totalStockQuantity, 15000, 50000],
-        backgroundColor: ['rgba(255,99,132,0.2)', 'rgba(54,162,235,0.2)', 'rgba(255,206,86,0.2)', 'rgba(75,192,192,0.2)'],
+        data: [
+          totalSalesPrice,
+          totalPurchasesAmount,
+          totalStockQuantity,
+          15000,
+          50000,
+        ],
+        backgroundColor: [
+          'rgba(255,99,132,0.2)',
+          'rgba(54,162,235,0.2)',
+          'rgba(255,206,86,0.2)',
+          'rgba(75,192,192,0.2)',
+        ],
       },
     ],
   };
 
   return (
     <div className="w-full ml-10 sm:ml-24 lg:ml-12 xl:ml-0 h-[610px] overflow-hidden overflow-y-scroll scrollbar-hide">
-
       <div className="max-w-5xl mx-auto text-black mt-5 h-full ">
-
         {notifications.length > 0 && (
           <div className="mb-6">
             {notifications.map((message, index) => (
@@ -107,7 +129,6 @@ export default function Dashboard() {
         <div>
           <h1 className="text-2xl font-bold mb-4">Welcome, </h1>
         </div>
-
         <div>
           <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -121,7 +142,9 @@ export default function Dashboard() {
             </div>
             <div className="bg-white shadow-md p-4 rounded-md">
               <h2 className="text-xl font-semibold">Available Stocks</h2>
-              <p className="text-4xl font-bold mt-2">{totalStockQuantity} Items</p>
+              <p className="text-4xl font-bold mt-2">
+                {totalStockQuantity} Items
+              </p>
             </div>
             <div className="bg-white shadow-md p-4 rounded-md">
               <h2 className="text-xl font-semibold">Total Assets</h2>

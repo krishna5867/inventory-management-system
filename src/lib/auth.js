@@ -1,16 +1,16 @@
-import CredentialsProvider from "next-auth/providers/credentials";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import prisma from "./prisma"; 
-import bcrypt from "bcryptjs";
+import CredentialsProvider from 'next-auth/providers/credentials';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import prisma from './prisma';
+import bcrypt from 'bcryptjs';
 
 export const authOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
-      name: "Credentials",
+      name: 'Credentials',
       credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
         const user = await prisma.user.findUnique({
@@ -18,13 +18,16 @@ export const authOptions = {
         });
 
         if (!user) {
-          throw new Error("No user found with this email");
+          throw new Error('No user found with this email');
         }
 
-        const isValid = await bcrypt.compare(credentials.password, user.password);
+        const isValid = await bcrypt.compare(
+          credentials.password,
+          user.password
+        );
 
         if (!isValid) {
-          throw new Error("Invalid credentials");
+          throw new Error('Invalid credentials');
         }
 
         return user;
@@ -32,7 +35,7 @@ export const authOptions = {
     }),
   ],
   session: {
-    strategy: "jwt", 
+    strategy: 'jwt',
   },
   callbacks: {
     async session({ session, token }) {

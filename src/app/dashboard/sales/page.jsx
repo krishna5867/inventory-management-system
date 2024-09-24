@@ -1,8 +1,7 @@
-'use client'
+'use client';
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-
 
 export default function SalesLedger() {
   const [formData, setFormData] = useState({
@@ -11,12 +10,11 @@ export default function SalesLedger() {
     price: '',
     tax: '',
     date: '',
-    paymentStatus: 'pending',  
+    paymentStatus: 'pending',
   });
 
-
-  const [successMessage, setSuccessMessage] = useState('');  
-  const router = useRouter();  
+  const [successMessage, setSuccessMessage] = useState('');
+  const router = useRouter();
 
   useEffect(() => {
     const storedSales = JSON.parse(localStorage.getItem('sales'));
@@ -27,8 +25,11 @@ export default function SalesLedger() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    const total = (parseFloat(formData.price) * (1 + parseFloat(formData.tax) / 100)).toFixed(2);
+
+    const total = (
+      parseFloat(formData.price) *
+      (1 + parseFloat(formData.tax) / 100)
+    ).toFixed(2);
 
     const storedSales = JSON.parse(localStorage.getItem('sales')) || [];
     const newSales = [...storedSales, { ...formData, total }];
@@ -70,12 +71,14 @@ export default function SalesLedger() {
 
   return (
     <div>
-    <div className="w-full ml-12 sm:ml-24 md:ml-36 lg:ml-20 mt-6 text-black">
-
+      <div className="w-full ml-12 sm:ml-24 md:ml-36 lg:ml-20 mt-6 text-black">
         <h1 className="text-2xl font-bold mb-4">Sales Ledger</h1>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <form
+          onSubmit={handleSubmit}
+          className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4"
+        >
           <div>
             <label className="block text-sm font-medium">Customer</label>
             <input
@@ -85,7 +88,7 @@ export default function SalesLedger() {
               onChange={handleInputChange}
               className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md"
               placeholder="Enter customer name"
-            required
+              required
             />
           </div>
           <div>
@@ -97,7 +100,7 @@ export default function SalesLedger() {
               onChange={handleInputChange}
               className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md"
               placeholder="Enter product name"
-            required
+              required
             />
           </div>
           <div>
@@ -109,7 +112,7 @@ export default function SalesLedger() {
               onChange={handleInputChange}
               className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md"
               placeholder="Enter price"
-            required
+              required
             />
           </div>
           <div>
@@ -121,7 +124,7 @@ export default function SalesLedger() {
               onChange={handleInputChange}
               className="mt-1  block w-full px-3 py-2 bg-white border border-gray-300 rounded-md"
               placeholder="Enter tax percentage"
-            required
+              required
             />
           </div>
           <div>
@@ -132,7 +135,7 @@ export default function SalesLedger() {
               value={formData.date}
               onChange={handleInputChange}
               className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md"
-            required
+              required
             />
           </div>
           <div>
@@ -142,7 +145,7 @@ export default function SalesLedger() {
               value={formData.paymentStatus}
               onChange={handleInputChange}
               className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md"
-            required
+              required
             >
               <option value="paid">Paid</option>
               <option value="pending">Pending</option>
@@ -167,9 +170,8 @@ export default function SalesLedger() {
 
         <div className="flex justify-end mb-4">
           <button
-            onClick={() => router.push('/dashboard/sales/show')} 
+            onClick={() => router.push('/dashboard/sales/show')}
             className="bg-gray-600 mt-4 sm:mt-0 text-white px-4 py-2 rounded-md hover:bg-gray-700"
-
           >
             Show Data
           </button>

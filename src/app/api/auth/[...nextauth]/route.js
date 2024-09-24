@@ -1,17 +1,21 @@
-import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import prisma from ".././../../../lib/prisma";
-import bcrypt from "bcryptjs";
+import NextAuth from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import prisma from '.././../../../lib/prisma';
+import bcrypt from 'bcryptjs';
 
 const handler = NextAuth({
   adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
-      name: "Credentials",
+      name: 'Credentials',
       credentials: {
-        email: { label: "Email", type: "email", placeholder: "you@example.com" },
-        password: { label: "Password", type: "password" },
+        email: {
+          label: 'Email',
+          type: 'email',
+          placeholder: 'you@example.com',
+        },
+        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
         const user = await prisma.user.findUnique({
@@ -19,20 +23,23 @@ const handler = NextAuth({
         });
 
         if (!user) {
-          throw new Error("No user found");
+          throw new Error('No user found');
         }
 
-        const isValid = await bcrypt.compare(credentials.password, user.password);
+        const isValid = await bcrypt.compare(
+          credentials.password,
+          user.password
+        );
 
         if (!isValid) {
-          throw new Error("Invalid credentials");
+          throw new Error('Invalid credentials');
         }
         return user;
       },
     }),
   ],
   session: {
-    strategy: "jwt", 
+    strategy: 'jwt',
   },
   pages: {
     signIn: '/signin',
