@@ -1,16 +1,13 @@
 "use client";
 
 import React, { useEffect } from 'react';
-import useFetch from '@/hooks/useFetch';
+import useSales from '@/hooks/useSales';
 
 const PurchaseTablePage = () => {
-  const { fetchData, data, loading, error } = useFetch({ url: '/api/sales' });
+  const {sales} = useSales();
+  const {data, status, error} = sales;
 
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
-  if (loading) return <p>Loading...</p>;
+  if (status === "loading") return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
   return (

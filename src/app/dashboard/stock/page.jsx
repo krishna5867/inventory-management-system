@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Modal from "@/components/Modal";
 import InputField from "@/components/InputField";
-import useSku from '@/hooks/sku';
+import useSku from '@/hooks/useSku';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

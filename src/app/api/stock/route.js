@@ -1,6 +1,4 @@
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import prisma from '@/lib/prisma';
 
 export async function POST(req) {
     try {
@@ -88,6 +86,42 @@ export async function GET() {
         console.error('Error fetching stock entries:', error);
         return new Response(
             JSON.stringify({ message: 'Failed to fetch stock entries.', error: error.message }),
+            {
+                status: 500,
+                headers: { 'Content-Type': 'application/json' },
+            }
+        );
+    } finally {
+        await prisma.$disconnect();
+    }
+}
+
+export async function DELETE(request) {
+    try {
+        const { id } = await request.json();
+
+        if (!id) {
+            return new Response(
+                JSON.stringify({ message: 'Stock ID is required for deletion.' }),
+                {
+                    status: 400,
+                    headers: { 'Content-Type': 'application/json' },
+                }
+            );
+        }
+
+        const deletedStock = await prisma.stock.delete({
+            where: { id },
+        });
+
+        return new Response(JSON.stringify(deletedStock), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' },
+        });
+    } catch (error) {
+        console.error('Error deleting stock entry:', error);
+        return new Response(
+            JSON.stringify({ message: 'Failed to delete stock entry.', error: error.message }),
             {
                 status: 500,
                 headers: { 'Content-Type': 'application/json' },

@@ -12,7 +12,7 @@ export const fetchSku = createAsyncThunk(
   }
 );
 
-const skuSlice = createSlice({
+const purchasesSlice = createSlice({
   name: 'sku',
   initialState: {
     data: [],
@@ -36,4 +36,4 @@ const skuSlice = createSlice({
   },
 });
 
-export default skuSlice.reducer;
+export default purchasesSlice.reducer;

@@ -2,17 +2,42 @@
 
 import useFetch from '@/hooks/useFetch';
 import { useState, useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import useStock from '@/hooks/useStock';
 
 export default function ShowStockData() {
   const [products, setProducts] = useState([]);
   const [lowStockAlerts, setLowStockAlerts] = useState([]);
 
-  const { fetchData, data: stocks, loading, error } = useFetch({ url: '/api/stock' });
+  // const { fetchData, data: stocks, loading, error } = useFetch({ url: '/api/stock' });
+  const {stock} = useStock();
+  const {data:stocks, status, error} = stock
+  
 
-  const handleDelete = (indexToDelete) => {
-    const updatedProducts = products.filter((_, index) => index !== indexToDelete);
-    setProducts(updatedProducts);
-    localStorage.setItem('products', JSON.stringify(updatedProducts));
+  const handleDelete = async (stockId) => {
+    try {
+      const confirmDelete = confirm('Are you sure you want to delete this stock?');
+      if (!confirmDelete) return;
+  
+      const response = await fetch(`/api/stock`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: stockId }),
+      });
+  
+      if (response.ok) {
+        toast.success('Stock deleted successfully.');
+      } else {
+        const errorData = await response.json();
+        toast.error(`Failed to delete stock: ${errorData.message}`);
+      }
+    } catch (error) {
+      console.error('Error deleting stock:', error);
+      alert(`Error deleting stock: ${error.message}`);
+    }
   };
 
   const handleClearAll = () => {
@@ -20,12 +45,11 @@ export default function ShowStockData() {
     localStorage.removeItem('products');
   };
 
+  // useEffect(() => {
+  //   fetchData();
+  // }, [fetchData]);
 
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
-  if (loading) return <p>Loading...</p>;
+  if (status === 'loading') return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
   // if (!stocks || stocks.length === 0) {
@@ -90,6 +114,7 @@ export default function ShowStockData() {
           </tbody>
         </table>
       </div>
+      <ToastContainer />
     </div>
   );
 }
