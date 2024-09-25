@@ -170,7 +170,7 @@ export default function SalesLedger() {
 
         <div className="flex justify-end mb-4">
           <button
-            onClick={() => router.push('/dashboard/sales/show')}
+            onClick={() => router.push('/dashboard/sales/data')}
             className="bg-gray-600 mt-4 sm:mt-0 text-white px-4 py-2 rounded-md hover:bg-gray-700"
           >
             Show Data

@@ -175,7 +175,7 @@ export default function AssetManagement() {
 
       <div className="flex justify-end mb-4">
         <button
-          onClick={() => router.push('/dashboard/assets/show-data')}
+          onClick={() => router.push('/dashboard/assets/data')}
           className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700"
         >
           Show Data

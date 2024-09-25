@@ -57,3 +57,42 @@ export async function GET() {
     });
   }
 }
+
+export async function DELETE(request) {
+  try {
+    const { id } = await request.json();
+
+    if (!id) {
+      return new Response(
+        JSON.stringify({ message: 'Sales ID is required for deletion.' }),
+        {
+          status: 400,
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
+    }
+
+    const deletedSales = await prisma.sales.delete({
+      where: { id },
+    });
+
+    return new Response(JSON.stringify(deletedSales), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  } catch (error) {
+    console.error('Error deleting sales entry:', error);
+    return new Response(
+      JSON.stringify({
+        message: 'Failed to delete sales entry.',
+        error: error.message,
+      }),
+      {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
+  } finally {
+    await prisma.$disconnect();
+  }
+}

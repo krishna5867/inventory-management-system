@@ -205,7 +205,7 @@ const StockManagement = () => {
         <div className="flex justify-end mb-4">
           <button
             type="button"
-            onClick={() => router.push('/dashboard/stock/show-data')}
+            onClick={() => router.push('/dashboard/stock/data')}
             className="bg-gray-600 text-white mt-6 px-4 py-2 rounded-md hover:bg-gray-700"
           >
             Show Data

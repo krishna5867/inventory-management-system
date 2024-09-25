@@ -291,7 +291,7 @@ const Purchase = () => {
 
         <div className="flex justify-end mb-4">
           <button
-            onClick={() => router.push('/dashboard/purchases/show')}
+            onClick={() => router.push('/dashboard/purchases/data')}
             className="bg-gray-600 mt-4 sm:mt-0 text-white px-4 py-2 rounded-md hover:bg-gray-700"
           >
             Show Data

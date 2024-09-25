@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import useFetch from '@/hooks/useFetch';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,9 +10,17 @@ const PurchaseTablePage = () => {
     url: '/api/purchases',
   });
 
+  const [filteredPurchases, setFilteredPurchases] = useState([]);
+  const [filterSupplier, setFilterSupplier] = useState('');
+  const [filterDate, setFilterDate] = useState('');
+
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  useEffect(() => {
+    setFilteredPurchases(data || []);
+  }, [data]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
@@ -33,24 +41,91 @@ const PurchaseTablePage = () => {
       });
 
       if (response.ok) {
-        toast.success('Purchases deleted successfully.');
+        toast.success('Purchase deleted successfully.');
+        fetchData();
       } else {
         const errorData = await response.json();
-        toast.error(`Failed to delete purchases entry: ${errorData.message}`);
+        toast.error(`Failed to delete purchase entry: ${errorData.message}`);
       }
     } catch (error) {
-      console.error('Error deleting purchases:', error);
-      alert(`Error deleting purchases: ${error.message}`);
+      console.error('Error deleting purchase:', error);
+      toast.error(`Error deleting purchase: ${error.message}`);
     }
+  };
+
+  const handleFilter = () => {
+    const filtered = (data || []).filter((purchase) => {
+      const isSupplierMatch = filterSupplier
+        ? purchase.vendorName
+            .toLowerCase()
+            .includes(filterSupplier.toLowerCase())
+        : true;
+      const isDateMatch = filterDate ? purchase.paidDate === filterDate : true;
+      return isSupplierMatch && isDateMatch;
+    });
+    setFilteredPurchases(filtered);
+  };
+
+  const handleClearAll = () => {
+    setFilteredPurchases(data || []);
+    setFilterSupplier('');
+    setFilterDate('');
   };
 
   return (
     <div className="p-4 w-full">
-      <h1 className="text-2xl font-bold mb-4">Purchase Information</h1>
+      <h1 className="text-2xl font-bold mb-4">All Purchase Information</h1>
+      <div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium">
+            Filter by Supplier
+          </label>
+          <input
+            type="text"
+            value={filterSupplier}
+            onChange={(e) => setFilterSupplier(e.target.value)}
+            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md"
+            placeholder="Enter supplier name"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium">Filter by Date</label>
+          <input
+            type="date"
+            value={filterDate}
+            onChange={(e) => setFilterDate(e.target.value)}
+            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md"
+          />
+        </div>
+      </div>
+
+      <div className="mb-4">
+        <button
+          onClick={handleFilter}
+          className="text-white px-4 py-2 rounded-md bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:ring-blue-300"
+        >
+          Filter
+        </button>
+      </div>
+
+      {(filteredPurchases.length > 0 ||
+        filterDate.length > 0 ||
+        filterSupplier.length > 0) && (
+        <div className="flex justify-end mb-4">
+          <button
+            onClick={handleClearAll}
+            className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+          >
+            Clear All
+          </button>
+        </div>
+      )}
+
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-300">
           <thead>
-            <tr className="bg-gray-10">
+            <tr className="bg-gray-100">
               <th className="px-4 py-2 border border-gray-300">Vendor Name</th>
               <th className="px-4 py-2 border border-gray-300">TDS</th>
               <th className="px-4 py-2 border border-gray-300">REM</th>
@@ -75,8 +150,8 @@ const PurchaseTablePage = () => {
             </tr>
           </thead>
           <tbody>
-            {data && data.length > 0 ? (
-              data.map((item, index) => (
+            {filteredPurchases.length > 0 ? (
+              filteredPurchases.map((item, index) => (
                 <tr key={index} className="border-b">
                   <td className="border px-4 py-2">{item.vendorName}</td>
                   <td className="border px-4 py-2">{item.tds}</td>
@@ -106,7 +181,7 @@ const PurchaseTablePage = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="12" className="text-center p-4">
+                <td colSpan="13" className="text-center p-4">
                   No purchase data available
                 </td>
               </tr>
