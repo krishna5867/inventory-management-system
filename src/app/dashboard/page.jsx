@@ -103,7 +103,7 @@ export default function Dashboard() {
           totalPurchasesAmount,
           totalStockQuantity,
           15000,
-          50000,
+          30000,
         ],
         backgroundColor: [
           'rgba(255,99,132,0.2)',
@@ -152,7 +152,7 @@ export default function Dashboard() {
             </div>
             <div className="bg-white shadow-md p-4 rounded-md">
               <h2 className="text-xl font-semibold">Account Balance</h2>
-              <p className="text-4xl font-bold mt-2">₹50,000</p>
+              <p className="text-4xl font-bold mt-2">₹30,000</p>
             </div>
           </div>
         </div>
