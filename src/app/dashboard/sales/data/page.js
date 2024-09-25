@@ -65,6 +65,8 @@ const SalesTablePage = () => {
 
   const generateInvoice = (sale) => {
     const doc = new jsPDF();
+    const saleDate = new Date(sale.date);
+    const dateParts = saleDate.toISOString().split('T')[0].split('-');
 
     doc.setFontSize(18);
     doc.text('Sales Invoice', 105, 20, null, null, 'center');
@@ -72,12 +74,11 @@ const SalesTablePage = () => {
     doc.setFontSize(12);
     doc.text(`Customer: ${sale.customer}`, 20, 40);
     doc.text(`Product: ${sale.product}`, 20, 50);
-    doc.text(`Price: $${sale.price}`, 20, 60);
+    doc.text(`Price: Rs.${sale.price}`, 20, 60);
     doc.text(`Tax: ${sale.tax}%`, 20, 70);
-    doc.text(`Total: $${sale.total}`, 20, 80);
-    doc.text(`Date: ${sale.date}`, 20, 90);
-
-    doc.save(`invoice_${sale.customer}_${sale.date}.pdf`);
+    doc.text(`Total: ${(sale.price + (sale.price * sale.tax) / 100).toFixed(2)}`, 20, 80);
+    doc.text(`Date: ${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`, 20, 90);
+    doc.save(`invoice_${sale.customer}_${saleDate}.pdf`);
   };
 
   if (status === 'loading') return <p>Loading...</p>;
