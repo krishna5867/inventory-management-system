@@ -60,7 +60,10 @@ const PurchaseTablePage = () => {
             .toLowerCase()
             .includes(filterSupplier.toLowerCase())
         : true;
-      const isDateMatch = filterDate ? purchase.paidDate === filterDate : true;
+      const purchaseDate = new Date(purchase.paidDate)
+        .toISOString()
+        .split('T')[0];
+      const isDateMatch = filterDate ? purchaseDate === filterDate : true;
       return isSupplierMatch && isDateMatch;
     });
     setFilteredPurchases(filtered);

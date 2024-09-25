@@ -23,7 +23,8 @@ const SalesTablePage = () => {
       const isCustomerMatch = sale.customer
         .toLowerCase()
         .includes(filterCustomer.toLowerCase());
-      const isDateMatch = filterDate ? sale.date === filterDate : true;
+      const saleDate = new Date(sale.date).toISOString().split('T')[0];
+      const isDateMatch = filterDate ? saleDate === filterDate : true;
       return isCustomerMatch && isDateMatch;
     });
     setFilteredSales(filtered);
