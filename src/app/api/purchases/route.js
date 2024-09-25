@@ -2,53 +2,44 @@ import prisma from '@/lib/prisma';
 
 export async function POST(req) {
   try {
-    const body = await req.json();
+    const formData = await req.formData();
 
-    const {
-      vendorName,
-      tds,
-      rem,
-      paidDate,
-      paymentFrom,
-      amountPaid,
-      warehouseLocation,
-      asset,
-      assetName,
-      assetValue,
-      assetDescription,
-      purchaseDescription,
-      purchaseBill,
-    } = body;
+    const vendorName = formData.get('vendorName');
+    const paidDate = formData.get('paidDate');
+    const amountPaid = formData.get('amountPaid');
+    const paymentFrom = formData.get('paymentFrom');
+    const purchaseBill = formData.get('purchaseBill');
 
     if (!vendorName || !paidDate || !amountPaid) {
       return new Response(
         JSON.stringify({ message: 'Missing required fields' }),
-        {
-          status: 400,
-          headers: { 'Content-Type': 'application/json' },
-        }
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
+    }
+
+    let purchaseBillBuffer = null;
+    if (purchaseBill) {
+      purchaseBillBuffer = Buffer.from(await purchaseBill.arrayBuffer());
     }
 
     const newPurchase = await prisma.purchase.create({
       data: {
         vendorName,
-        tds,
-        rem,
         paidDate: new Date(paidDate),
-        paymentFrom,
         amountPaid: parseFloat(amountPaid),
-        warehouseLocation,
-        asset,
-        assetName,
-        assetValue: parseFloat(assetValue),
-        assetDescription,
-        purchaseDescription,
-        purchaseBill,
+        paymentFrom,
+        purchaseBill: purchaseBillBuffer,
       },
     });
 
-    return new Response(JSON.stringify(newPurchase), {
+    const responsePurchase = {
+      ...newPurchase,
+      purchaseBill: newPurchase.purchaseBill
+        ? newPurchase.purchaseBill.toString('base64')
+        : null,
+    };
+
+    return new Response(JSON.stringify(responsePurchase), {
       status: 201,
       headers: { 'Content-Type': 'application/json' },
     });
@@ -56,21 +47,25 @@ export async function POST(req) {
     console.error('Error creating purchase:', error);
     return new Response(
       JSON.stringify({ message: 'Failed to add Purchases' }),
-      {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' },
-      }
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
 export async function GET() {
   try {
-    const purchase = await prisma.purchase.findMany({});
+    const purchases = await prisma.purchase.findMany();
 
-    return new Response(JSON.stringify(purchase), {
+    const purchasesWithBase64 = purchases.map((purchase) => {
+      return {
+        ...purchase,
+        purchaseBill: purchase.purchaseBill
+          ? purchase.purchaseBill.toString('base64')
+          : null,
+      };
+    });
+
+    return new Response(JSON.stringify(purchasesWithBase64), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     });

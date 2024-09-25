@@ -141,6 +141,7 @@ const SalesTablePage = () => {
               <th className="px-4 py-2 border border-gray-300">Product</th>
               <th className="px-4 py-2 border border-gray-300">Price</th>
               <th className="px-4 py-2 border border-gray-300">Tax</th>
+              <th className="px-4 py-2 border border-gray-300">Total</th>
               <th className="px-4 py-2 border border-gray-300">
                 Payment Status
               </th>
@@ -155,6 +156,10 @@ const SalesTablePage = () => {
                   <td className="border px-4 py-2">{item.product}</td>
                   <td className="border px-4 py-2">Rs. {item.price}</td>
                   <td className="border px-4 py-2">{item.tax}%</td>
+                  <td className="border px-4 py-2">
+                    Rs.{' '}
+                    {(item.price + (item.price * item.tax) / 100).toFixed(2)}
+                  </td>
                   <td className="border px-4 py-2">{item.paymentStatus}</td>
                   <td className="border px-4 py-2">
                     <div className="flex space-x-2">

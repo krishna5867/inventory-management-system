@@ -9,6 +9,7 @@ const PurchaseTablePage = () => {
   const { fetchData, data, loading, error } = useFetch({
     url: '/api/purchases',
   });
+  console.log(data);
 
   const [filteredPurchases, setFilteredPurchases] = useState([]);
   const [filterSupplier, setFilterSupplier] = useState('');
@@ -73,6 +74,13 @@ const PurchaseTablePage = () => {
     setFilteredPurchases(data || []);
     setFilterSupplier('');
     setFilterDate('');
+  };
+
+  const handleDownload = (base64Data, filename) => {
+    const link = document.createElement('a');
+    link.href = `data:application/pdf;base64,${base64Data}`;
+    link.download = filename;
+    link.click();
   };
 
   return (
@@ -171,7 +179,30 @@ const PurchaseTablePage = () => {
                   <td className="border px-4 py-2">
                     {item.purchaseDescription}
                   </td>
-                  <td className="border px-4 py-2">{item.purchaseBill}</td>
+                  <td className="border px-4 py-2">
+                    {typeof item.purchaseBill === 'string' ? (
+                      <a
+                        href={`data:application/pdf;base64,${item.purchaseBill}`}
+                        download={`${item.vendorName}-bill.pdf`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <button
+                          onClick={() =>
+                            handleDownload(
+                              item.purchaseBill,
+                              'purchase-bill.pdf'
+                            )
+                          }
+                          className="text-blue-500"
+                        >
+                          View Bill
+                        </button>
+                      </a>
+                    ) : (
+                      <span>Invalid or missing bill data</span>
+                    )}
+                  </td>
                   <td className="border px-4 py-2">
                     <button
                       onClick={() => handleDelete(item.id)}
