@@ -5,10 +5,10 @@ import LayoutClient from './LayoutClient';
 export default async function ProtectedLayout({ children }) {
   const session = await getServerSession();
 
-  // if (!session) {
-  //   redirect('/signin');
-  //   return null;
-  // }
+  if (!session) {
+    redirect('/signin');
+    return null;
+  }
 
   return <LayoutClient>{children}</LayoutClient>;
 }
