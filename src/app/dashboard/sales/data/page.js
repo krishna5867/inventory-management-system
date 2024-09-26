@@ -14,8 +14,7 @@ const SalesTablePage = () => {
   const [filterDate, setFilterDate] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
   const [filteredSales, setFilteredSales] = useState([]);
-  console.log(filteredSales, filterStatus);
-
+  // console.log(filteredSales, filterStatus);
 
   useEffect(() => {
     setFilteredSales(data || []);
@@ -49,7 +48,7 @@ const SalesTablePage = () => {
       default:
         break;
     }
-    handleFilter();
+    // handleFilter();
   };
 
   const handleClearAll = () => {
@@ -87,13 +86,13 @@ const SalesTablePage = () => {
   };
 
   const generateInvoice = (sale) => {
+    return new Promise((resolve) => {
     const doc = new jsPDF();
     const saleDate = new Date(sale.date);
     const dateParts = saleDate.toISOString().split('T')[0].split('-');
 
     doc.setFontSize(18);
-    doc.text('Sales Invoice', 105, 20, null, null, 'center');
-
+    doc.text(`Sales Invoice`, 105, 20, null, null, 'center');
     doc.setFontSize(12);
     doc.text(`Customer: ${sale.customer}`, 20, 40);
     doc.text(`Product: ${sale.product}`, 20, 50);
@@ -102,8 +101,39 @@ const SalesTablePage = () => {
     doc.text(`Total: ${(sale.price + (sale.price * sale.tax) / 100).toFixed(2)}`, 20, 80);
     doc.text(`Date: ${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`, 20, 90);
     doc.save(`invoice_${sale.customer}_${saleDate}.pdf`);
-  };
+    setTimeout(resolve, 500); 
+  });
+};
 
+  const generateCombinedInvoice = (sales) => {
+    const doc = new jsPDF();
+  
+    sales.forEach((sale, index) => {
+      const saleDate = new Date(sale.date);
+      const dateParts = saleDate.toISOString().split('T')[0].split('-');
+  
+      doc.setFontSize(18);
+      doc.text('Sales Invoice', 105, 20, null, null, 'center');
+  
+      doc.setFontSize(12);
+      doc.text(`Customer: ${sale.customer}`, 20, 40);
+      doc.text(`Product: ${sale.product}`, 20, 50);
+      doc.text(`Price: Rs.${sale.price}`, 20, 60);
+      doc.text(`Tax: ${sale.tax}%`, 20, 70);
+      doc.text(`Total: ${(sale.price + (sale.price * sale.tax) / 100).toFixed(2)}`, 20, 80);
+      doc.text(`Date: ${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`, 20, 90);
+  
+      if (index < sales.length - 1) {
+        doc.addPage(); 
+      }
+    });
+  
+    doc.save(`combined_invoice_${new Date().toISOString().split('T')[0]}.pdf`);
+  };
+  
+
+  
+  
   if (status === 'loading') return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
@@ -153,12 +183,11 @@ const SalesTablePage = () => {
         )}
       </div>
 
-      <div className="mb-4 flex justify-end gap-4">
-        <div>
+      <div className="mb-4 flex justify-end items-center gap-4">
+        <label className="text-sm font-medium">Sort by</label>
+        <div className='flex items-center'>
           <select
-            // name="paymentStatus"
             name="status" value={filterStatus} onChange={handleFilterChange}
-            // onChange={handleFilterByStatus} 
             className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md"
             required
           >
@@ -170,7 +199,8 @@ const SalesTablePage = () => {
           </select>
         </div>
         <button
-          onClick={handleFilter}
+          // onClick={() => filteredSales.forEach(sale => generateInvoice(sale))}
+          onClick={() => generateCombinedInvoice(filteredSales)}
           className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700"
         >
           Generate Invoices
@@ -222,7 +252,7 @@ const SalesTablePage = () => {
                         onClick={() => generateInvoice(item)}
                         className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
                       >
-                        Generate Invoice
+                        Invoice
                       </button>
                     </div>
                   </td>

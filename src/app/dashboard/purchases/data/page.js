@@ -129,8 +129,6 @@ const PurchaseTablePage = () => {
           </button>
       )}
       </div>
-
-
       <div className="overflow-x-auto pt-10">
         <table className="min-w-full bg-white border border-gray-300">
           <thead>
