@@ -179,7 +179,7 @@ const PurchaseTablePage = () => {
                   <td className="border px-4 py-2">
                     {item.purchaseDescription}
                   </td>
-                  <td className="border px-4 py-2">
+                  <td className="border px-4 py-2 text-center group">
                     {typeof item.purchaseBill === 'string' ? (
                       <a
                         href={`data:application/pdf;base64,${item.purchaseBill}`}
@@ -194,9 +194,9 @@ const PurchaseTablePage = () => {
                               'purchase-bill.pdf'
                             )
                           }
-                          className="text-blue-500"
+                          className="text-blue-500 group-hover:underline"
                         >
-                          View Bill
+                          View
                         </button>
                       </a>
                     ) : (

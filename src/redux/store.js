@@ -5,6 +5,7 @@ import {
   salesReducer,
   stockReducer,
   purchasesReducer,
+  warehouseLocationReducer
 } from './slice';
 
 export const store = configureStore({
@@ -14,6 +15,7 @@ export const store = configureStore({
     sales: salesReducer,
     stocks: stockReducer,
     purchases: purchasesReducer,
+    warehouseLocation: warehouseLocationReducer
   },
 });
 

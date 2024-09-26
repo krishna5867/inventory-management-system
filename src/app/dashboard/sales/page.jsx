@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function SalesLedger() {
   const [formData, setFormData] = useState({
@@ -46,8 +48,7 @@ export default function SalesLedger() {
     const data = await response.json();
 
     if (response.ok) {
-      setSuccessMessage('Sale added successfully');
-
+      toast.success('Sale added successfully');
       setFormData({
         customer: '',
         product: '',
@@ -57,7 +58,7 @@ export default function SalesLedger() {
         paymentStatus: 'pending',
       });
     } else {
-      setSuccessMessage('Error adding sale: ' + data.error);
+      toast.error('Error adding sale: ' + data.error);
     }
   };
 
@@ -149,6 +150,7 @@ export default function SalesLedger() {
             >
               <option value="paid">Paid</option>
               <option value="pending">Pending</option>
+              <option value="cancelled">Cancelled</option>
               <option value="overdue">Overdue</option>
             </select>
           </div>
@@ -177,6 +179,7 @@ export default function SalesLedger() {
           </button>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }

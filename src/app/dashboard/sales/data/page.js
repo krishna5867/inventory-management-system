@@ -12,7 +12,10 @@ const SalesTablePage = () => {
 
   const [filterCustomer, setFilterCustomer] = useState('');
   const [filterDate, setFilterDate] = useState('');
+  const [filterStatus, setFilterStatus] = useState('');
   const [filteredSales, setFilteredSales] = useState([]);
+  console.log(filteredSales, filterStatus);
+
 
   useEffect(() => {
     setFilteredSales(data || []);
@@ -25,14 +28,34 @@ const SalesTablePage = () => {
         .includes(filterCustomer.toLowerCase());
       const saleDate = new Date(sale.date).toISOString().split('T')[0];
       const isDateMatch = filterDate ? saleDate === filterDate : true;
-      return isCustomerMatch && isDateMatch;
+      const isStatusMatch = filterStatus ? sale.paymentStatus.toLowerCase() === filterStatus.toLowerCase() : true;
+      return isCustomerMatch && isDateMatch && isStatusMatch;
     });
     setFilteredSales(filtered);
+  };
+
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    switch (name) {
+      case 'customer':
+        setFilterCustomer(value);
+        break;
+      case 'date':
+        setFilterDate(value);
+        break;
+      case 'status':
+        setFilterStatus(value);
+        break;
+      default:
+        break;
+    }
+    handleFilter();
   };
 
   const handleClearAll = () => {
     setFilterCustomer('');
     setFilterDate('');
+    setFilterStatus('');
     setFilteredSales(data || []);
   };
 
@@ -94,8 +117,7 @@ const SalesTablePage = () => {
           </label>
           <input
             type="text"
-            value={filterCustomer}
-            onChange={(e) => setFilterCustomer(e.target.value)}
+            name="customer" value={filterCustomer} onChange={handleFilterChange}
             className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md"
             placeholder="Enter customer name"
           />
@@ -105,32 +127,56 @@ const SalesTablePage = () => {
           <label className="block text-sm font-medium">Filter by Date</label>
           <input
             type="date"
-            value={filterDate}
-            onChange={(e) => setFilterDate(e.target.value)}
+            name="date" value={filterDate} onChange={handleFilterChange}
             className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md"
           />
         </div>
       </div>
 
-      <div className="mb-4">
+      <div className="mb-4 flex gap-4">
         <button
           onClick={handleFilter}
           className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
         >
           Filter
         </button>
+
+        {(filteredSales.length > 0 || filterCustomer || filterDate) && (
+          <div className="">
+            <button
+              onClick={handleClearAll}
+              className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+            >
+              Clear All
+            </button>
+          </div>
+        )}
       </div>
 
-      {(filteredSales.length > 0 || filterCustomer || filterDate) && (
-        <div className="flex justify-end mb-4">
-          <button
-            onClick={handleClearAll}
-            className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+      <div className="mb-4 flex justify-end gap-4">
+        <div>
+          <select
+            // name="paymentStatus"
+            name="status" value={filterStatus} onChange={handleFilterChange}
+            // onChange={handleFilterByStatus} 
+            className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md"
+            required
           >
-            Clear All
-          </button>
+            <option value="">All</option>
+            <option value="paid">Paid</option>
+            <option value="pending">Pending</option>
+            <option value="cancelled">Cancelled</option>
+            <option value="overdue">Overdue</option>
+          </select>
         </div>
-      )}
+        <button
+          onClick={handleFilter}
+          className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700"
+        >
+          Generate Invoices
+        </button>
+      </div>
+
 
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-300">
@@ -161,7 +207,9 @@ const SalesTablePage = () => {
                     Rs.{' '}
                     {(item.price + (item.price * item.tax) / 100).toFixed(2)}
                   </td>
-                  <td className="border px-4 py-2">{item.paymentStatus}</td>
+                  <td className={`border px-4 py-2 font-semibold ${item.paymentStatus === 'cancelled' ? 'text-red-600' : ''}`}>
+                    {item.paymentStatus}
+                  </td>
                   <td className="border px-4 py-2">
                     <div className="flex space-x-2">
                       <button

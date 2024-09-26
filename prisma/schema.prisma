@@ -81,6 +81,11 @@ model BankDetails {
   updatedAt     DateTime @updatedAt
 }
 
+model WarehouseLocation {
+  id            Int  @id @default(autoincrement())
+  warehouseLocation String
+}
+
 model Purchase {
   id                 Int      @id @default(autoincrement())
   vendorName         String
