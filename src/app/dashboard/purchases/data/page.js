@@ -9,7 +9,6 @@ const PurchaseTablePage = () => {
   const { fetchData, data, loading, error } = useFetch({
     url: '/api/purchases',
   });
-  console.log(data);
 
   const [filteredPurchases, setFilteredPurchases] = useState([]);
   const [filterSupplier, setFilterSupplier] = useState('');

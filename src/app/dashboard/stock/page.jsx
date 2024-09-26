@@ -7,9 +7,11 @@ import InputField from '@/components/InputField';
 import useSku from '@/hooks/useSku';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useWarehouseLocation } from '@/hooks';
 
 const StockManagement = () => {
   const { sku } = useSku();
+  const {locationDetails} = useWarehouseLocation();
 
   const { status, error, data } = sku;
   const [modalOpen, setModalOpen] = useState(false);
@@ -175,10 +177,10 @@ const StockManagement = () => {
             label="Warehouse"
             isSelect={true}
             id="warehouse"
-            options={[
-              { label: 'Jaipur', value: 'Jaipur' },
-              { label: 'Bangalore', value: 'Bangalore' },
-            ]}
+            options={locationDetails.data?.map((item) => ({
+              label: item.warehouseLocation,
+              value: item.warehouseLocation,
+            }))}
             value={formData.warehouseLocation}
             onChange={(e) =>
               handleFormDataChange('warehouseLocation', e.target.value)

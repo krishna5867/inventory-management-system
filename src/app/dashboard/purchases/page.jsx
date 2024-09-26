@@ -78,7 +78,6 @@ const Purchase = () => {
     }
   };
 
-
   const handleAddWarehouse = async (warehouseFormData) => {
       try {
         const response = await fetch('/api/purchases/addwarehouse', {
