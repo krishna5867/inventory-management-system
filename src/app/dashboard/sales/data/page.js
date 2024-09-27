@@ -201,7 +201,7 @@ const SalesTablePage = () => {
         <button
           // onClick={() => filteredSales.forEach(sale => generateInvoice(sale))}
           onClick={() => generateCombinedInvoice(filteredSales)}
-          className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700"
+          className="bg-gray-600 text-white px-4 py-2 rounded-md hov    er:bg-gray-700"
         >
           Generate Invoices
         </button>

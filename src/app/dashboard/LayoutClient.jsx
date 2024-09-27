@@ -11,9 +11,17 @@ export default function LayoutClient({ children }) {
   const pathname = usePathname();
 
   const isActive = (path) => {
-    return pathname === path ? 'bg-gray-700' : '';
+    if (pathname === path) {
+      return 'bg-gray-700';
+    } else if (pathname.startsWith(path) && path !== '/dashboard') {
+      return 'bg-gray-700';
+    } else if (pathname === '/dashboard' && path === '/dashboard') {
+      return 'bg-gray-700';
+    } else {
+      return '';
+    }
   };
-
+  
   const handleClick = () => {
     setIsVisible(!isVisible);
   };
