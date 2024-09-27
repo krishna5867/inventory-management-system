@@ -1,84 +1,71 @@
-'use client';
+"use client";
 
 import React, { useState } from 'react';
 import InputField from './InputField';
 
-const Modal = ({ isOpen, onClose, onSubmit }) => {
-  const [formData, setFormData] = useState({
-    sku: '',
-    productName: '',
-    description: '',
-  });
+const ReusableModal = ({ isOpen, onClose, onSubmit, title, fields = [] }) => {
+  const initialFormData = fields.reduce((acc, field) => {
+    acc[field.name] = '';
+    return acc;
+  }, {});
+
+  const [formData, setFormData] = useState(initialFormData);
+
+  const handleInputChange = (name, value) => {
+    setFormData({ ...formData, [name]: value });
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(formData);
+    e.preventDefault(); 
+    onSubmit(formData); 
     onClose();
-    setFormData({
-      sku: '',
-      productName: '',
-      description: '',
-    });
+    setFormData(initialFormData); 
   };
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-5 flex justify-center items-center">
-      <div className="bg-white p-4 rounded-lg shadow-lg max-w-sm w-full">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold">Add New SKU</h2>
-        </div>
-        <InputField
-          label="SKU"
-          type="text"
-          id="sku"
-          name="sku"
-          placeholder="Sku"
-          value={formData.sku}
-          onChange={(e) => setFormData({ ...formData, sku: e.target.value })}
-          required={true}
-        />
-        <InputField
-          label="Product Name"
-          type="text"
-          id="productName"
-          name="productName"
-          placeholder="Product Name"
-          value={formData.productName}
-          onChange={(e) =>
-            setFormData({ ...formData, productName: e.target.value })
-          }
-          required={true}
-        />
-        <InputField
-          label="Description"
-          type="text"
-          id="description"
-          name="description"
-          placeholder="Description"
-          value={formData.description}
-          onChange={(e) =>
-            setFormData({ ...formData, description: e.target.value })
-          }
-        />
-        <div className="flex items-center justify-between">
-          <button
-            onClick={onClose}
-            className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Close
-          </button>
-          <button
-            onClick={handleSubmit}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Submit
-          </button>
-        </div>
+    <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center">
+      <div className="bg-white p-5 rounded-lg w-72 sm:w-1/2 md:w-1/3">
+        <h2 className="text-xl font-semibold mb-4">{title}</h2>
+        <form onSubmit={handleSubmit}>
+          {fields.map((field, index) => (
+            <InputField
+              key={index}
+              label={field.label}
+              type={field.type}
+              id={field.name}
+              placeholder={field.placeholder}
+              value={formData[field.name]}
+              onChange={(e) => handleInputChange(field.name, e.target.value)}
+              required={field.required}
+              isTextArea={field.isTextArea || false}
+              options={field.options || []}
+            />
+          ))}
+          <div className="flex justify-end gap-4">
+            <button
+              type="button"
+              onClick={onClose}
+              className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Close
+            </button>
+            <button
+              type="submit"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              value={formData.bankName}
+              onChange={(e) => setFormData({ ...formData, bankName: e.target.value})}
+              onClick={handleSubmit}
+            >
+              Submit
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
 };
 
-export default Modal;
+
+export default ReusableModal;

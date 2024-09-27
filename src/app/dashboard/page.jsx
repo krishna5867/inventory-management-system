@@ -31,24 +31,44 @@ export default function Dashboard() {
 
   // console.log(stock.data);
 
-  const totalSalesPrice = sales.data.reduce((acc, curr) => {
-    return acc + curr.price;
-  }, 0);
+  // const totalSalesPrice = sales.data.reduce((acc, curr) => {
+  //   return acc + curr.price;
+  // }, 0);
 
-  const totalStockQuantity = stock.data.reduce((accumulator, currentStock) => {
-    const totalQuantityPerStock = currentStock.items.reduce(
-      (innerAcc, item) => {
+  const totalSalesPrice = Array.isArray(sales.data) 
+  ? sales.data.reduce((acc, curr) => acc + curr.price, 0)
+  : 0;
+
+
+  // const totalStockQuantity = stock.data.reduce((accumulator, currentStock) => {
+  //   const totalQuantityPerStock = currentStock.items.reduce(
+  //     (innerAcc, item) => {
+  //       return innerAcc + item.stockQuantity;
+  //     },
+  //     0
+  //   );
+
+  //   return accumulator + totalQuantityPerStock;
+  // }, 0);
+
+  const totalStockQuantity = Array.isArray(stock.data)
+  ? stock.data.reduce((accumulator, currentStock) => {
+      const totalQuantityPerStock = currentStock.items.reduce((innerAcc, item) => {
         return innerAcc + item.stockQuantity;
-      },
-      0
-    );
+      }, 0);
+      return accumulator + totalQuantityPerStock;
+    }, 0)
+  : 0; // Return 0 if stock.data is not an array
 
-    return accumulator + totalQuantityPerStock;
-  }, 0);
 
-  const totalPurchasesAmount = purchases.data.reduce((acc, curr) => {
-    return acc + curr.amountPaid;
-  }, 0);
+  // const totalPurchasesAmount = purchases.data.reduce((acc, curr) => {
+  //   return acc + curr.amountPaid;
+  // }, 0);
+
+  const totalPurchasesAmount = Array.isArray(purchases.data)
+  ? purchases.data.reduce((acc, curr) => acc + curr.amountPaid, 0)
+  : 0; // If purchases.data is not an array, return 0
+
 
   useEffect(() => {
     const today = new Date().toISOString().split('T')[0];
