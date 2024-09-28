@@ -69,7 +69,7 @@ export default function ShowSalesData() {
   }, [])
 
   return (
-    <div className="w-full ml-12 sm:ml-24 md:ml-36 lg:ml-20 mt-6 text-black">
+    <div className="w-full ml-12 sm:ml-24 md:ml-36 lg:ml-20 mt-4 text-black h-[600px] overflow-hidden overflow-y-scroll scrollbar-hide">
       <h1 className="text-2xl font-bold mb-4">All Sales Data</h1>
 
       <div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -114,29 +114,41 @@ export default function ShowSalesData() {
           </button>
         </div>
       )}
-      <div className="max-h-screen overflow-y-auto lg:max-h-full lg:overflow-visible rounded">
+      <div className="max-h-screen overflow-y-auto lg:max-h-full overflow-visible rounded">
       <table className="min-w-full bg-white">
         <thead>
           <tr>
             <th className="px-4 py-2">Customer</th>
-            <th className="px-4 py-2">Product</th>
-            <th className="px-4 py-2">Price</th>
-            <th className="px-4 py-2">Tax</th>
-            <th className="px-4 py-2">Total</th>
-            <th className="px-4 py-2">Date</th>
-            <th className="px-4 py-2">Action</th>
+            <th className="px-4 py-2">StateName</th>
+            <th className="px-4 py-2">Invoice Number</th>
+            <th className="px-4 py-2">Invoice Date</th>
+            <th className="px-4 py-2">Invoice Value</th>
+            <th className="px-4 py-2">HSN/SAC</th>
+            <th className="px-4 py-2">Goods/Service Description</th>
+            <th className="px-4 py-2">Taxable Value</th>
+            <th className="px-4 py-2">Quantity</th>
+            <th className="px-4 py-2">Unit</th>
+            <th className="px-4 py-2">Rate</th>
+            <th className="px-4 py-2">Amount</th>
           </tr>
         </thead>
         <tbody>
           {filteredSales.length > 0 ? (
             filteredSales.map((sale, index) => (
               <tr key={index}>
-                <td className="border px-4 py-2">{sale.customer}</td>
-                <td className="border px-4 py-2">{sale.product}</td>
-                <td className="border px-4 py-2">Rs.{parseFloat(sale.price).toFixed(2)}</td>
-                <td className="border px-4 py-2">{sale.tax}%</td>
-                <td className="border px-4 py-2">{sale.total}</td>
-                <td className="border px-4 py-2">{formatDate(sale.date)}</td>
+                <td className="border px-4 py-2">{sale.customerName}</td>
+                <td className="border px-4 py-2">{sale.stateName}</td>
+                <td className="border px-4 py-2">{sale.invoiceNumber}</td>
+                <td className="border px-4 py-2">{formatDate(sale.invoiceDate)}</td>
+                <td className="border px-4 py-2">{sale.invoiceValue}</td>
+                <td className="border px-4 py-2">{sale.hsnSac}</td>
+                <td className="border px-4 py-2">{sale.description}</td>
+                <td className="border px-4 py-2">{sale.taxableValue}%</td>
+                <td className="border px-4 py-2">{sale.quantity}</td>
+                <td className="border px-4 py-2">{sale.unit}</td>
+                <td className="border px-4 py-2">{sale.rate}</td>
+                <td className="border px-4 py-2">{sale.amount}</td>
+                {/* <td className="border px-4 py-2">Rs.{parseFloat(sale.price).toFixed(2)}</td> */}
                 <td className="border px-4 py-2">
                   <div className="flex space-x-2">
                     <button

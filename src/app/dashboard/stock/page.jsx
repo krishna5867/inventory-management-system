@@ -51,7 +51,7 @@ export default function StockManagement() {
   ];
 
   return (
-    <div className="w-full ml-16 mt-6 text-black h-[600px] overflow-y-scroll">
+    <div className="w-full ml-16 mt-6 text-black h-[600px] overflow-y-scroll overflow-hidden scrollbar-hide">
       <h1 className="text-2xl font-bold mb-4">Stock Management</h1>
       <div className="bg-white p-6 rounded-lg space-y-4">
         <h2 className="font-bold text-lg">Add New Stock Order</h2>

@@ -60,7 +60,7 @@ export default function ShowPurchaseData() {
   };
 
   return (
-    <div className="w-full ml-14 sm:ml-20 md:ml-28 lg:ml-12 mt-6 text-black h-[600px] overflow-hidden overflow-y-scroll scrollbar-hide">
+    <div className="w-full ml-14 sm:ml-20 md:ml-28 lg:ml-12 mt-4 text-black h-[600px] overflow-hidden overflow-y-scroll scrollbar-hide">
       <h1 className="text-2xl font-bold mb-4">All Purchase Orders</h1>
 
       <div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
