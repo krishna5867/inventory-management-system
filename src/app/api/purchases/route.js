@@ -9,6 +9,14 @@ export async function POST(req) {
     const amountPaid = formData.get('amountPaid');
     const paymentFrom = formData.get('paymentFrom');
     const purchaseBill = formData.get('purchaseBill');
+    const rem = formData.get('rem');
+    const tds = formData.get('tds');
+    const warehouseLocation = formData.get('warehouseLocation');
+    const asset = formData.get('asset');
+    const assetName = formData.get('assetName');
+    const assetValue = formData.get('assetValue');
+    const assetDescription = formData.get('assetDescription');
+    const purchaseDescription = formData.get('purchaseDescription');
 
     if (!vendorName || !paidDate || !amountPaid) {
       return new Response(
@@ -29,8 +37,19 @@ export async function POST(req) {
         amountPaid: parseFloat(amountPaid),
         paymentFrom,
         purchaseBill: purchaseBillBuffer,
+        rem,
+        tds,
+        warehouseLocation,
+        asset,
+        assetName,
+        assetValue: parseFloat(assetValue),
+        assetDescription,
+        purchaseDescription,
       },
     });
+
+    console.log("data", newPurchase);
+    
 
     const responsePurchase = {
       ...newPurchase,

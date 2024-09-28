@@ -9,7 +9,6 @@ const PurchaseTablePage = () => {
   const { fetchData, data, loading, error } = useFetch({
     url: '/api/purchases',
   });
-  console.log(data);
 
   const [filteredPurchases, setFilteredPurchases] = useState([]);
   const [filterSupplier, setFilterSupplier] = useState('');
@@ -111,29 +110,26 @@ const PurchaseTablePage = () => {
         </div>
       </div>
 
-      <div className="mb-4">
+      <div className="mb-4 flex gap-x-4">
         <button
           onClick={handleFilter}
           className="text-white px-4 py-2 rounded-md bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:ring-blue-300"
         >
           Filter
         </button>
-      </div>
 
       {(filteredPurchases.length > 0 ||
         filterDate.length > 0 ||
         filterSupplier.length > 0) && (
-        <div className="flex justify-end mb-4">
           <button
             onClick={handleClearAll}
             className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
           >
             Clear All
           </button>
-        </div>
       )}
-
-      <div className="overflow-x-auto">
+      </div>
+      <div className="overflow-x-auto pt-10">
         <table className="min-w-full bg-white border border-gray-300">
           <thead>
             <tr className="bg-gray-100">
