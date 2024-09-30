@@ -48,8 +48,7 @@ export async function POST(req) {
       },
     });
 
-    console.log("data", newPurchase);
-    
+    console.log('data', newPurchase);
 
     const responsePurchase = {
       ...newPurchase,

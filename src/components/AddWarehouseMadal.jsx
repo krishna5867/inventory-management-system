@@ -13,7 +13,7 @@ const AddWarehouseMadal = ({ isOpen, onClose, onSubmit }) => {
     onSubmit(formData);
     onClose();
     setFormData({
-        warehouseLocation: '',
+      warehouseLocation: '',
     });
   };
 
@@ -55,4 +55,4 @@ const AddWarehouseMadal = ({ isOpen, onClose, onSubmit }) => {
   );
 };
 
-export default AddWarehouseMadal
+export default AddWarehouseMadal;

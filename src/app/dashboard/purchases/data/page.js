@@ -118,16 +118,16 @@ const PurchaseTablePage = () => {
           Filter
         </button>
 
-      {(filteredPurchases.length > 0 ||
-        filterDate.length > 0 ||
-        filterSupplier.length > 0) && (
+        {(filteredPurchases.length > 0 ||
+          filterDate.length > 0 ||
+          filterSupplier.length > 0) && (
           <button
             onClick={handleClearAll}
             className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
           >
             Clear All
           </button>
-      )}
+        )}
       </div>
       <div className="overflow-x-auto pt-10">
         <table className="min-w-full bg-white border border-gray-300">

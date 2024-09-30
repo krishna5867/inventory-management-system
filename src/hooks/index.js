@@ -5,5 +5,11 @@ import useStock from './useStock';
 import usePurchases from './usePurchases';
 import useWarehouseLocation from './useWarehouseLocation';
 
-
-export { useSku, useBankDetails, useSales, useStock, usePurchases,useWarehouseLocation };
+export {
+  useSku,
+  useBankDetails,
+  useSales,
+  useStock,
+  usePurchases,
+  useWarehouseLocation,
+};

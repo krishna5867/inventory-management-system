@@ -11,7 +11,7 @@ import { useWarehouseLocation } from '@/hooks';
 
 const StockManagement = () => {
   const { sku } = useSku();
-  const {locationDetails} = useWarehouseLocation();
+  const { locationDetails } = useWarehouseLocation();
 
   const { status, error, data } = sku;
   const [modalOpen, setModalOpen] = useState(false);
@@ -104,117 +104,131 @@ const StockManagement = () => {
   };
 
   return (
-    <div className="w-full ml-16 sm:ml-24 md:ml-32 lg:ml-10 xl:ml-16 mt-6 text-black h-[600px] overflow-hidden overflow-y-scroll scrollbar-hide">
-      <h1 className="text-2xl font-bold mb-4">Stock Management</h1>
-      <form onSubmit={handleCreateStockOrder}>
-        <div className="bg-white p-6 rounded-lg space-y-4">
-          <h2 className="font-bold text-lg">Add New Stock Order</h2>
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              setModalOpen(true);
-            }}
-            className="py-2 px-4 bg-blue-500 text-white rounded"
-          >
-            Add New SKU
-          </button>
-          <Modal
-            isOpen={modalOpen}
-            onClose={() => setModalOpen(false)}
-            onSubmit={handleAddSku}
-          />
+    <div className="mx-4">
+      <div className="w-full mt-6 text-black h-[600px] overflow-hidden overflow-y-scroll scrollbar-hide">
+        <h1 className="text-2xl font-bold mb-4">Stock Management</h1>
+        <form onSubmit={handleCreateStockOrder}>
+          <div className="bg-white p-6 rounded-lg space-y-4">
+            <h2 className="font-bold text-lg">Add New Stock Order</h2>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setModalOpen(true);
+              }}
+              className="py-2 px-4 bg-blue-500 text-white rounded"
+            >
+              Add New SKU
+            </button>
+            <Modal
+              isOpen={modalOpen}
+              onClose={() => setModalOpen(false)}
+              onSubmit={handleAddSku}
+            />
 
-          {status === 'loading' && <p>Loading SKUs...</p>}
-          {status === 'failed' && <p>Error: {error}</p>}
+            {status === 'loading' && <p>Loading SKUs...</p>}
+            {status === 'failed' && <p>Error: {error}</p>}
 
-          {status === 'succeeded' &&
-            formData.items.map((item, index) => (
-              <div key={index} className="flex space-x-2 items-center">
-                <InputField
-                  label="SKU"
-                  isSelect
-                  id={`sku-${index}`}
-                  options={data.map((skuItem) => ({
-                    label: skuItem.sku,
-                    value: skuItem.id,
-                  }))}
-                  value={item.skuId}
-                  onChange={(e) =>
-                    handleFormDataChange('skuId', e.target.value, index)
-                  }
-                />
-                <InputField
-                  label="Quantity"
-                  type="number"
-                  id={`quantity-${index}`}
-                  placeholder="Quantity"
-                  value={item.stockQuantity}
-                  onChange={(e) =>
-                    handleFormDataChange('stockQuantity', e.target.value, index)
-                  }
-                />
-                {index > 0 && (
-                  <button
-                    type="button"
-                    className="bg-red-500 text-white px-2 py-1.5 rounded"
-                    onClick={() => handleRemoveItem(index)}
-                  >
-                    Remove
-                  </button>
-                )}
-              </div>
-            ))}
+            {status === 'succeeded' &&
+              formData.items.map((item, index) => (
+                <div key={index} className="flex space-x-2 items-center">
+                  <InputField
+                    label="SKU"
+                    isSelect
+                    id={`sku-${index}`}
+                    options={data.map((skuItem) => ({
+                      label: skuItem.sku,
+                      value: skuItem.id,
+                    }))}
+                    value={item.skuId}
+                    onChange={(e) =>
+                      handleFormDataChange('skuId', e.target.value, index)
+                    }
+                  />
+                  <InputField
+                    label="Quantity"
+                    type="number"
+                    id={`quantity-${index}`}
+                    placeholder="Quantity"
+                    value={item.stockQuantity}
+                    onChange={(e) =>
+                      handleFormDataChange(
+                        'stockQuantity',
+                        e.target.value,
+                        index
+                      )
+                    }
+                  />
+                  {index > 0 && (
+                    <button
+                      type="button"
+                      className="bg-red-500 text-white px-2 py-1.5 rounded"
+                      onClick={() => handleRemoveItem(index)}
+                    >
+                      Remove
+                    </button>
+                  )}
+                </div>
+              ))}
 
-          <button
-            type="button"
-            className="bg-green-500 text-white p-2 rounded"
-            onClick={handleAddItem}
-          >
-            Add
-          </button>
+            <button
+              type="button"
+              className="bg-green-500 text-white p-2 rounded"
+              onClick={handleAddItem}
+            >
+              Add
+            </button>
 
-          <InputField
-            label="Warehouse"
-            isSelect={true}
-            id="warehouse"
-            options={locationDetails.data?.map((item) => ({
-              label: item.warehouseLocation,
-              value: item.warehouseLocation,
-            }))}
-            value={formData.warehouseLocation}
-            onChange={(e) =>
-              handleFormDataChange('warehouseLocation', e.target.value)
-            }
-          />
-          <InputField
-            label="Order Notes"
-            isTextArea
-            id="orderNotes"
-            placeholder="Add order notes"
-            value={formData.orderDescription}
-            onChange={(e) =>
-              handleFormDataChange('orderDescription', e.target.value)
-            }
-          />
+            <InputField
+              label="Warehouse"
+              isSelect={true}
+              id="warehouse"
+              // options={locationDetails.data?.map((item) => ({
+              //   label: item.warehouseLocation,
+              //   value: item.warehouseLocation,
+              // }))}
+              options={
+                Array.isArray(locationDetails.data)
+                  ? locationDetails.data.map((item) => ({
+                      label: item.warehouseLocation,
+                      value: item.warehouseLocation,
+                    }))
+                  : []
+              }
+              value={formData.warehouseLocation}
+              onChange={(e) =>
+                handleFormDataChange('warehouseLocation', e.target.value)
+              }
+            />
+            <InputField
+              label="Order Notes"
+              isTextArea
+              id="orderNotes"
+              placeholder="Add order notes"
+              value={formData.orderDescription}
+              onChange={(e) =>
+                handleFormDataChange('orderDescription', e.target.value)
+              }
+            />
 
-          <button
-            type="submit"
-            className="bg-blue-500 text-white p-2 rounded w-full"
-          >
-            Create Stock Order
-          </button>
-        </div>
-        <div className="flex justify-end mb-4">
-          <button
-            type="button"
-            onClick={() => router.push('/dashboard/stock/data')}
-            className="bg-gray-600 text-white mt-6 px-4 py-2 rounded-md hover:bg-gray-700"
-          >
-            Show Data
-          </button>
-        </div>
-      </form>
-      <ToastContainer />
+            <button
+              type="submit"
+              className="bg-blue-500 text-white p-2 rounded w-full"
+            >
+              Create Stock Order
+            </button>
+          </div>
+          <div className="flex justify-end mb-4">
+            <button
+              type="button"
+              onClick={() => router.push('/dashboard/stock/data')}
+              className="bg-gray-600 text-white mt-6 px-4 py-2 rounded-md hover:bg-gray-700"
+            >
+              Show Data
+            </button>
+          </div>
+        </form>
+        <ToastContainer />
+      </div>
     </div>
   );
 };

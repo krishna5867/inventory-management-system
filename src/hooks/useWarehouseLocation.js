@@ -16,5 +16,4 @@ const useWarehouseLocation = () => {
   return { locationDetails };
 };
 
-
-export default useWarehouseLocation
+export default useWarehouseLocation;
