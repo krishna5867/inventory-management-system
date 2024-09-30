@@ -27,7 +27,9 @@ const SalesTablePage = () => {
         .includes(filterCustomer.toLowerCase());
       const saleDate = new Date(sale.date).toISOString().split('T')[0];
       const isDateMatch = filterDate ? saleDate === filterDate : true;
-      const isStatusMatch = filterStatus ? sale.paymentStatus.toLowerCase() === filterStatus.toLowerCase() : true;
+      const isStatusMatch = filterStatus
+        ? sale.paymentStatus.toLowerCase() === filterStatus.toLowerCase()
+        : true;
       return isCustomerMatch && isDateMatch && isStatusMatch;
     });
     setFilteredSales(filtered);
@@ -87,53 +89,58 @@ const SalesTablePage = () => {
 
   const generateInvoice = (sale) => {
     return new Promise((resolve) => {
-    const doc = new jsPDF();
-    const saleDate = new Date(sale.date);
-    const dateParts = saleDate.toISOString().split('T')[0].split('-');
-
-    doc.setFontSize(18);
-    doc.text(`Sales Invoice`, 105, 20, null, null, 'center');
-    doc.setFontSize(12);
-    doc.text(`Customer: ${sale.customer}`, 20, 40);
-    doc.text(`Product: ${sale.product}`, 20, 50);
-    doc.text(`Price: Rs.${sale.price}`, 20, 60);
-    doc.text(`Tax: ${sale.tax}%`, 20, 70);
-    doc.text(`Total: ${(sale.price + (sale.price * sale.tax) / 100).toFixed(2)}`, 20, 80);
-    doc.text(`Date: ${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`, 20, 90);
-    doc.save(`invoice_${sale.customer}_${saleDate}.pdf`);
-    setTimeout(resolve, 500); 
-  });
-};
-
-  const generateCombinedInvoice = (sales) => {
-    const doc = new jsPDF();
-  
-    sales.forEach((sale, index) => {
+      const doc = new jsPDF();
       const saleDate = new Date(sale.date);
       const dateParts = saleDate.toISOString().split('T')[0].split('-');
-  
+
       doc.setFontSize(18);
-      doc.text('Sales Invoice', 105, 20, null, null, 'center');
-  
+      doc.text(`Sales Invoice`, 105, 20, null, null, 'center');
       doc.setFontSize(12);
       doc.text(`Customer: ${sale.customer}`, 20, 40);
       doc.text(`Product: ${sale.product}`, 20, 50);
       doc.text(`Price: Rs.${sale.price}`, 20, 60);
       doc.text(`Tax: ${sale.tax}%`, 20, 70);
-      doc.text(`Total: ${(sale.price + (sale.price * sale.tax) / 100).toFixed(2)}`, 20, 80);
+      doc.text(
+        `Total: ${(sale.price + (sale.price * sale.tax) / 100).toFixed(2)}`,
+        20,
+        80
+      );
       doc.text(`Date: ${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`, 20, 90);
-  
+      doc.save(`invoice_${sale.customer}_${saleDate}.pdf`);
+      setTimeout(resolve, 500);
+    });
+  };
+
+  const generateCombinedInvoice = (sales) => {
+    const doc = new jsPDF();
+
+    sales.forEach((sale, index) => {
+      const saleDate = new Date(sale.date);
+      const dateParts = saleDate.toISOString().split('T')[0].split('-');
+
+      doc.setFontSize(18);
+      doc.text('Sales Invoice', 105, 20, null, null, 'center');
+
+      doc.setFontSize(12);
+      doc.text(`Customer: ${sale.customer}`, 20, 40);
+      doc.text(`Product: ${sale.product}`, 20, 50);
+      doc.text(`Price: Rs.${sale.price}`, 20, 60);
+      doc.text(`Tax: ${sale.tax}%`, 20, 70);
+      doc.text(
+        `Total: ${(sale.price + (sale.price * sale.tax) / 100).toFixed(2)}`,
+        20,
+        80
+      );
+      doc.text(`Date: ${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`, 20, 90);
+
       if (index < sales.length - 1) {
-        doc.addPage(); 
+        doc.addPage();
       }
     });
-  
+
     doc.save(`combined_invoice_${new Date().toISOString().split('T')[0]}.pdf`);
   };
-  
 
-  
-  
   if (status === 'loading') return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
@@ -147,7 +154,9 @@ const SalesTablePage = () => {
           </label>
           <input
             type="text"
-            name="customer" value={filterCustomer} onChange={handleFilterChange}
+            name="customer"
+            value={filterCustomer}
+            onChange={handleFilterChange}
             className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md"
             placeholder="Enter customer name"
           />
@@ -157,7 +166,9 @@ const SalesTablePage = () => {
           <label className="block text-sm font-medium">Filter by Date</label>
           <input
             type="date"
-            name="date" value={filterDate} onChange={handleFilterChange}
+            name="date"
+            value={filterDate}
+            onChange={handleFilterChange}
             className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md"
           />
         </div>
@@ -185,9 +196,11 @@ const SalesTablePage = () => {
 
       <div className="mb-4 flex justify-end items-center gap-4">
         <label className="text-sm font-medium">Sort by</label>
-        <div className='flex items-center'>
+        <div className="flex items-center">
           <select
-            name="status" value={filterStatus} onChange={handleFilterChange}
+            name="status"
+            value={filterStatus}
+            onChange={handleFilterChange}
             className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md"
             required
           >
@@ -207,29 +220,29 @@ const SalesTablePage = () => {
         </button>
       </div>
 
-
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-300">
           <thead>
-            <tr className="bg-gray-10">
-              <th className="px-4 py-2 border border-gray-300">
-                Customer Name
-              </th>
-              <th className="px-4 py-2 border border-gray-300">Product</th>
-              <th className="px-4 py-2 border border-gray-300">Price</th>
-              <th className="px-4 py-2 border border-gray-300">Tax</th>
-              <th className="px-4 py-2 border border-gray-300">Total</th>
-              <th className="px-4 py-2 border border-gray-300">
-                Payment Status
-              </th>
-              <th className="px-4 py-2 border border-gray-300">Action</th>
+            <tr>
+              <th className="px-4 py-2">Customer</th>
+              <th className="px-4 py-2">StateName</th>
+              <th className="px-4 py-2">Invoice Number</th>
+              <th className="px-4 py-2">Invoice Date</th>
+              <th className="px-4 py-2">Invoice Value</th>
+              <th className="px-4 py-2">HSN/SAC</th>
+              <th className="px-4 py-2">Goods/Service Description</th>
+              <th className="px-4 py-2">Taxable Value</th>
+              <th className="px-4 py-2">Quantity</th>
+              <th className="px-4 py-2">Unit</th>
+              <th className="px-4 py-2">Rate</th>
+              <th className="px-4 py-2">Amount</th>
             </tr>
           </thead>
           <tbody>
             {filteredSales && filteredSales.length > 0 ? (
               filteredSales.map((item, index) => (
                 <tr key={index} className="border-b">
-                  <td className="border px-4 py-2">{item.customer}</td>
+                  {/* <td className="border px-4 py-2">{item.customer}</td>
                   <td className="border px-4 py-2">{item.product}</td>
                   <td className="border px-4 py-2">Rs. {item.price}</td>
                   <td className="border px-4 py-2">{item.tax}%</td>
@@ -239,7 +252,21 @@ const SalesTablePage = () => {
                   </td>
                   <td className={`border px-4 py-2 font-semibold ${item.paymentStatus === 'cancelled' ? 'text-red-600' : ''}`}>
                     {item.paymentStatus}
+                  </td> */}
+                  <td className="border px-4 py-2">{item.customerName}</td>
+                  <td className="border px-4 py-2">{item.stateName}</td>
+                  <td className="border px-4 py-2">{item.invoiceNumber}</td>
+                  <td className="border px-4 py-2">
+                    {formatDate(item.invoiceDate)}
                   </td>
+                  <td className="border px-4 py-2">{item.invoiceValue}</td>
+                  <td className="border px-4 py-2">{item.hsnSac}</td>
+                  <td className="border px-4 py-2">{item.description}</td>
+                  <td className="border px-4 py-2">{item.taxableValue}%</td>
+                  <td className="border px-4 py-2">{item.quantity}</td>
+                  <td className="border px-4 py-2">{item.unit}</td>
+                  <td className="border px-4 py-2">{item.rate}</td>
+                  <td className="border px-4 py-2">{item.amount}</td>
                   <td className="border px-4 py-2">
                     <div className="flex space-x-2">
                       <button

@@ -21,13 +21,13 @@ export default function LayoutClient({ children }) {
       return '';
     }
   };
-  
+
   const handleClick = () => {
     setIsVisible(!isVisible);
   };
 
   return (
-    <div className="gap-2 flex relative">
+    <div className="relative w-full flex">
       <div className="absolute -top-14 left-5 lg:hidden" onClick={handleClick}>
         {isVisible ? (
           <button>
@@ -39,9 +39,9 @@ export default function LayoutClient({ children }) {
           </button>
         )}
       </div>
-
+      {/* w-1/2 sm:w-1/4 lg:w-1/6 */}
       <div
-        className={`shadow-lg absolute top-0 left-0  lg:static w-1/2 sm:w-1/4 lg:w-1/6 pb-10 lg:pb-0 h-screen lg:h-[625px] bg-gray-800 text-white py-2 z-10 transform transition-transform duration-300 ease-in-out ${
+        className={`shadow-lg absolute top-0 left-0 lg:static w-52 lg:w-1/5 pb-10 lg:pb-0 h-screen lg:h-[625px] bg-gray-800 text-white py-2 z-10 transform transition-transform duration-300 ease-in-out ${
           isVisible ? 'translate-x-0' : '-translate-x-full'
         } lg:translate-x-0 lg:block`}
       >
@@ -84,7 +84,7 @@ export default function LayoutClient({ children }) {
         </div>
       </div>
 
-      <div className="w-3/4">{children}</div>
+      <div className="w-full">{children}</div>
     </div>
   );
 }

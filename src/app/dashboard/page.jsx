@@ -35,10 +35,9 @@ export default function Dashboard() {
   //   return acc + curr.price;
   // }, 0);
 
-  const totalSalesPrice = Array.isArray(sales.data) 
-  ? sales.data.reduce((acc, curr) => acc + curr.price, 0)
-  : 0;
-
+  const totalSalesPrice = Array.isArray(sales.data)
+    ? sales.data.reduce((acc, curr) => acc + curr.price, 0)
+    : 0;
 
   // const totalStockQuantity = stock.data.reduce((accumulator, currentStock) => {
   //   const totalQuantityPerStock = currentStock.items.reduce(
@@ -52,23 +51,24 @@ export default function Dashboard() {
   // }, 0);
 
   const totalStockQuantity = Array.isArray(stock.data)
-  ? stock.data.reduce((accumulator, currentStock) => {
-      const totalQuantityPerStock = currentStock.items.reduce((innerAcc, item) => {
-        return innerAcc + item.stockQuantity;
-      }, 0);
-      return accumulator + totalQuantityPerStock;
-    }, 0)
-  : 0; // Return 0 if stock.data is not an array
-
+    ? stock.data.reduce((accumulator, currentStock) => {
+        const totalQuantityPerStock = currentStock.items.reduce(
+          (innerAcc, item) => {
+            return innerAcc + item.stockQuantity;
+          },
+          0
+        );
+        return accumulator + totalQuantityPerStock;
+      }, 0)
+    : 0; // Return 0 if stock.data is not an array
 
   // const totalPurchasesAmount = purchases.data.reduce((acc, curr) => {
   //   return acc + curr.amountPaid;
   // }, 0);
 
   const totalPurchasesAmount = Array.isArray(purchases.data)
-  ? purchases.data.reduce((acc, curr) => acc + curr.amountPaid, 0)
-  : 0; // If purchases.data is not an array, return 0
-
+    ? purchases.data.reduce((acc, curr) => acc + curr.amountPaid, 0)
+    : 0; // If purchases.data is not an array, return 0
 
   useEffect(() => {
     const today = new Date().toISOString().split('T')[0];
@@ -136,8 +136,8 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="w-full ml-10 sm:ml-24 lg:ml-12 xl:ml-0 h-[610px] overflow-hidden overflow-y-scroll scrollbar-hide">
-      <div className="max-w-5xl mx-auto text-black mt-5 h-full ">
+    <div className="h-[610px] overflow-hidden overflow-y-scroll scrollbar-hide flex justify-center mx-4">
+      <div className="w-full text-black mt-5">
         {notifications.length > 0 && (
           <div className="mb-6">
             {notifications.map((message, index) => (
@@ -151,7 +151,7 @@ export default function Dashboard() {
         </div>
         <div>
           <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-white shadow-md p-4 rounded-md">
               <h2 className="text-xl font-semibold">Total Sales</h2>
               <p className="text-4xl font-bold mt-2">₹{totalSalesPrice}</p>

@@ -12,7 +12,7 @@ import { useBankDetails, useWarehouseLocation } from '@/hooks';
 
 const Purchase = () => {
   const { bankDetails, status, error } = useBankDetails();
-  const {locationDetails} = useWarehouseLocation();
+  const { locationDetails } = useWarehouseLocation();
 
   const [formState, setFormState] = useState({
     vendorName: '',
@@ -79,27 +79,27 @@ const Purchase = () => {
   };
 
   const handleAddWarehouse = async (warehouseFormData) => {
-      try {
-        const response = await fetch('/api/purchases/addwarehouse', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(warehouseFormData),
-        });
-  
-        const result = await response.json();
-        if (response.ok) {
-          toast.success('Warehouse Location added successfully!');
-          setShowBankModal(false);
-        } else {
-          toast.error(`Failed to add Warehouse Location: ${result.message}`);
-        }
-      } catch (error) {
-        console.error('Error adding Warehouse Location:', error);
-        toast.error('Failed to add Warehouse Location');
+    try {
+      const response = await fetch('/api/purchases/addwarehouse', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(warehouseFormData),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        toast.success('Warehouse Location added successfully!');
+        setShowBankModal(false);
+      } else {
+        toast.error(`Failed to add Warehouse Location: ${result.message}`);
       }
-  }
+    } catch (error) {
+      console.error('Error adding Warehouse Location:', error);
+      toast.error('Failed to add Warehouse Location');
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -141,11 +141,9 @@ const Purchase = () => {
   };
 
   return (
-    <>
-      <h1 className="text-2xl font-bold my-6 ml-20 sm:ml-32 lg:ml-28">
-        Purchase Management
-      </h1>
-      <div className="bg-white w-auto ml-20 -mr-12 sm:ml-32 sm:-mr-16 md:-mr-24 lg:-mr-0 lg:ml-24 xl:ml-28 rounded-lg p-5 py-8 my-3 h-[533px] overflow-hidden overflow-y-scroll scrollbar-hide">
+    <div className="mx-4">
+      <h1 className="text-2xl font-bold my-3">Purchase Management</h1>
+      <div className="bg-white w-full rounded-lg p-5 py-8 my-3 h-[533px] overflow-hidden overflow-y-scroll scrollbar-hide">
         <form onSubmit={handleSubmit}>
           <InputField
             label="Vendor Name"
@@ -218,11 +216,20 @@ const Purchase = () => {
                 onChange={handleInputChange}
                 required
               >
-                {bankDetails.data?.map((account, index) => (
+                {/* {bankDetails.data?.map((account, index) => (
                   <option key={index} value={account.accountNumber}>
                     {account.bankName}-{account.accountNumber}
                   </option>
-                ))}
+                ))} */}
+                {Array.isArray(bankDetails.data) ? (
+                  bankDetails.data.map((account, index) => (
+                    <option key={index} value={account.accountNumber}>
+                      {account.bankName} - {account.accountNumber}
+                    </option>
+                  ))
+                ) : (
+                  <option disabled>No bank accounts available</option>
+                )}
               </select>
             </div>
           </div>
@@ -266,11 +273,20 @@ const Purchase = () => {
                 onChange={handleInputChange}
                 required
               >
-                {locationDetails.data?.map((item, index) => (
+                {/* {locationDetails.data?.map((item, index) => (
                   <option key={index} value={item.warehouseLocation}>
                     {item.warehouseLocation}
                   </option>
-                ))}
+                ))} */}
+                {Array.isArray(locationDetails.data) ? (
+                  locationDetails.data.map((item, index) => (
+                    <option key={index} value={item.warehouseLocation}>
+                      {item.warehouseLocation}
+                    </option>
+                  ))
+                ) : (
+                  <option disabled>No locations available</option>
+                )}
               </select>
             </div>
           </div>
@@ -369,7 +385,7 @@ const Purchase = () => {
           >
             Add New Purchase
           </button>
-        </form >
+        </form>
 
         <div className="flex justify-end mb-4">
           <button
@@ -379,9 +395,9 @@ const Purchase = () => {
             Show Data
           </button>
         </div>
-      </div >
+      </div>
       <ToastContainer />
-    </>
+    </div>
   );
 };
 

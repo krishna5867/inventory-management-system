@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState } from 'react';
 import InputField from './InputField';
@@ -16,10 +16,10 @@ const ReusableModal = ({ isOpen, onClose, onSubmit, title, fields = [] }) => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault(); 
-    onSubmit(formData); 
+    e.preventDefault();
+    onSubmit(formData);
     onClose();
-    setFormData(initialFormData); 
+    setFormData(initialFormData);
   };
 
   if (!isOpen) return null;
@@ -55,7 +55,9 @@ const ReusableModal = ({ isOpen, onClose, onSubmit, title, fields = [] }) => {
               type="submit"
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               value={formData.bankName}
-              onChange={(e) => setFormData({ ...formData, bankName: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, bankName: e.target.value })
+              }
               onClick={handleSubmit}
             >
               Submit
@@ -66,6 +68,5 @@ const ReusableModal = ({ isOpen, onClose, onSubmit, title, fields = [] }) => {
     </div>
   );
 };
-
 
 export default ReusableModal;
